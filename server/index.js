@@ -2,12 +2,15 @@ import express from "express"
 import cors from "cors";
 import path from 'path';
 import { fileURLToPath } from 'url';
-import createRouter, { router } from "express-file-routing"
+import createRouter from "express-file-routing";
+import { config } from 'dotenv';
+
+config();
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 const SERVER_SRC = path.join(__dirname, 'src');
 const app = express();
 const corsOptions = {
