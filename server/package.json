@@ -14,5 +14,6 @@
     "express-file-routing": "^3.0.3",
     "joi": "^17.13.3",
     "socket.io": "^4.7.5"
-  }
+  },
+  "type": "module"
 }
