@@ -19,6 +19,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 await createRouter(app, { directory: path.join(SERVER_SRC, "routes") }); // as wrapper function
 
