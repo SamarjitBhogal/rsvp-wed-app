@@ -8,9 +8,11 @@ const MYSQL_PASS = process.env.MYSQL_LH_PASSWORD;
 
 config();
 
-mysql.createPool({
+export const db = mysql
+  .createPool({
     host: MYSQL_HOST,
     user: MYSQL_USER,
     password: MYSQL_PASS,
-    database: DB_NAME
-}).promise();
+    database: DB_NAME,
+  })
+  .promise();
