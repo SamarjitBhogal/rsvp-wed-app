@@ -1,14 +1,14 @@
-import { db } from "../config/database.js";
+import { db } from '../config/database.js';
 
 export class User {
-  constructor(userName, userEmail, password) {
-    this.userName = userName;
-    this.userEmail = userEmail;
-    this.password = password;
-  }
+	constructor(userName, userEmail, password) {
+		this.userName = userName;
+		this.userEmail = userEmail;
+		this.password = password;
+	}
 
-  createUser() {
-    let query = `INSERT INTO users(
+	createUser() {
+		let query = `INSERT INTO users(
             UserName,
             UserEmail,
             UserPassword
@@ -18,6 +18,6 @@ export class User {
             '${this.userEmail}',
             '${this.password}'
         )`;
-    return db.execute(query);;
-  }
+		return db.execute(query);
+	}
 }
