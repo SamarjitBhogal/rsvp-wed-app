@@ -1,10 +1,7 @@
 import { User } from '../../models/user.js';
 import { userSchema } from '../../config/joi-schemas.js';
 import { createHashedPassword } from '../../utils/bcrypt.js';
-import jwt from 'jsonwebtoken';
-import { config } from 'dotenv';
-
-config();
+import { signJWT } from '../../utils/jwt.js';
 
 export const post = async (req, res) => {
 	const result = userSchema.validate(req.body);
@@ -26,11 +23,5 @@ export const post = async (req, res) => {
 		return res.status(500).send({ message: 'Failed to create user.', error: error });
 	}
 
-	const accessToken = jwt.sign(
-		{ userID: await User.getUserID(userName, userEmail), user: user },
-		process.env.JWT_SECRET_KEY,
-		{ expiresIn: process.env.JWT_EXPIRE_TIME }
-	);
-
-	return res.status(201).send({ message: 'Signup successfull.', value: accessToken });
+	return res.status(201).send({ message: 'Signup successfull.', value: await signJWT(user) });
 };
