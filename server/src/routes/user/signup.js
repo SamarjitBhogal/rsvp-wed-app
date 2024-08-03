@@ -26,5 +26,11 @@ export const post = async (req, res) => {
 		return res.status(500).send({ message: 'Failed to create user.', error: error });
 	}
 
-	return res.status(201).send({ message: 'Signup successfull.' });
+	const accessToken = jwt.sign(
+		{ userID: await User.getUserID(userName, userEmail), user: user },
+		process.env.JWT_SECRET_KEY,
+		{ expiresIn: process.env.JWT_EXPIRE_TIME }
+	);
+
+	return res.status(201).send({ message: 'Signup successfull.', value: accessToken });
 };
