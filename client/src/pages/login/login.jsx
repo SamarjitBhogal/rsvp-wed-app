@@ -1,7 +1,10 @@
 import styles from './login.module.css';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const LoginPage = () => {
+	const navigate = useNavigate();
+
 	const handleLogin = (event) => {
 		event.preventDefault();
 		axios
@@ -11,6 +14,7 @@ const LoginPage = () => {
 			})
 			.then((res) => {
 				console.log(res);
+				navigate("/home");
 			});
 	};
 
@@ -23,7 +27,7 @@ const LoginPage = () => {
 						src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
 						className='mx-auto h-10 w-auto'
 					/> */}
-					A LOGO
+					<p className='text-center'>A LOGO</p>
 					<h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
 						Sign in to your account
 					</h2>
