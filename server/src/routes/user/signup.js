@@ -1,10 +1,10 @@
 import { User } from '../../models/user.js';
-import { userSchema } from '../../config/joi-schemas.js';
+import { userSignUpSchema } from '../../config/joi-schemas.js';
 import { createHashedPassword } from '../../utils/bcrypt.js';
 import { signJWT } from '../../utils/jwt.js';
 
 export const post = async (req, res) => {
-	const result = userSchema.validate(req.body);
+	const result = userSignUpSchema.validate(req.body);
 	if (result.error)
 		return res.status(400).send({ message: 'Could not signup.', error: result.error.details[0].message });
 

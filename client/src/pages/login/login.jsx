@@ -1,6 +1,19 @@
 import styles from './login.module.css';
+import axios from 'axios';
 
 const LoginPage = () => {
+	const handleLogin = (event) => {
+		event.preventDefault();
+		axios
+			.post('http://localhost:3000/user/login', {
+				userEmail: event.target[0].value,
+				password: event.target[1].value,
+			})
+			.then((res) => {
+				console.log(res);
+			});
+	};
+
 	return (
 		<>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
@@ -10,14 +23,14 @@ const LoginPage = () => {
 						src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
 						className='mx-auto h-10 w-auto'
 					/> */}
-                    A LOGO
+					A LOGO
 					<h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
 						Sign in to your account
 					</h2>
 				</div>
 
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-					<form action='#' method='POST' className='space-y-6'>
+					<form className='space-y-6' onSubmit={handleLogin}>
 						<div>
 							<label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
 								Email address
@@ -25,7 +38,7 @@ const LoginPage = () => {
 							<div className='mt-2'>
 								<input
 									id='email'
-									name='email'
+									name='userName'
 									type='email'
 									required
 									autoComplete='email'

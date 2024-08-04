@@ -21,9 +21,9 @@ export class User {
 		return db.execute(query);
 	}
 
-	static async getUser(userName, userEmail) {
+	static async getUser(userEmail) {
 		let query = `SELECT USER_ID, UserName, UserEmail, UserPassword FROM users 
-			WHERE UserName = '${userName}' AND UserEmail = '${userEmail}'`;
+			WHERE UserEmail = '${userEmail}'`;
 
 		let [result, _] = await db.execute(query);
 		return result[0];
