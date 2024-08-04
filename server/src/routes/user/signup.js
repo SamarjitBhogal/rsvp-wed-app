@@ -16,7 +16,7 @@ export const post = async (req, res) => {
 	let user = new User(userName, userEmail, createHashedPassword(password));
 
 	try {
-		await user.createUser();
+		await user.insertUser();
 		console.log('Signup successfull. ', user);
 	} catch (error) {
 		// database error

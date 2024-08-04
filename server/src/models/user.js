@@ -1,5 +1,7 @@
 import { db } from '../config/database.js';
 
+// TODO: handle db errors.
+
 export class User {
 	constructor(userName, userEmail, password) {
 		this.userName = userName;
@@ -7,7 +9,7 @@ export class User {
 		this.password = password;
 	}
 
-	createUser() {
+	insertUser() {
 		let query = `INSERT INTO users(
             UserName,
             UserEmail,
