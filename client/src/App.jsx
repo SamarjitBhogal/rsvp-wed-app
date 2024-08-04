@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import LoginPage from './pages/login/login';
 
 const App = () => {
-	const [count, setCount] = useState(0);
+	const router = createBrowserRouter([{ path: '/login', element: <LoginPage /> }]);
 
 	return (
 		<>
-			<LoginPage/>
+			<RouterProvider router={router} />
 		</>
 	);
-}
+};
 
 export default App;
