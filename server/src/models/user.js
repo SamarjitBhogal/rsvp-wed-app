@@ -9,7 +9,7 @@ export class User {
 		this.password = password;
 	}
 
-	insertUser() {
+	async insertUser() {
 		let query = `INSERT INTO users(
             UserName,
             UserEmail,
@@ -20,22 +20,14 @@ export class User {
             '${this.userEmail}',
             '${this.password}'
         )`;
-		return db.execute(query);
+		const result = await db.execute(query);
+		this.userID = result[0].insertId;
+		return result;
 	}
 
 	static async getUser(userEmail) {
 		let query = `SELECT USER_ID, UserName, UserEmail, UserPassword FROM users 
 			WHERE UserEmail = '${userEmail}'`;
-
-		let [result, _] = await db.execute(query);
-		return result[0];
-	}
-
-	//TODO: remove and use getUser
-	static async getUserID(userName, userEmail) {
-		let query = `SELECT USER_ID FROM users 
-            WHERE UserEmail = '${userEmail}' 
-            AND UserName = '${userName}'`;
 
 		let [result, _] = await db.execute(query);
 		return result[0];

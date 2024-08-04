@@ -23,5 +23,5 @@ export const post = async (req, res) => {
 		return res.status(500).send({ message: 'Failed to create user.', error: error });
 	}
 
-	return res.status(201).send({ message: 'Signup successfull.', value: await signJWT(user) });
+	return res.status(201).send({ message: 'Signup successfull.', accessToken: await signJWT(user) });
 };

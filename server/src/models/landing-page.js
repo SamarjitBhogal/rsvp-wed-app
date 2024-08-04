@@ -5,7 +5,7 @@ import { uploadImg } from '../utils/cloudinary.js';
 const defaultImg = "samples/sheep";
 
 export class LandingPage {
-    constructor(userID, pageTitle, pageDesc, pageImg = ""   , pageColor = "#FFFFFF") {
+    constructor(userID, pageTitle, pageDesc, pageImg = "", pageColor = "#FFFFFF") {
         this.userID = userID;
         this.pageTitle = pageTitle;
         this.pageDesc = pageDesc;
