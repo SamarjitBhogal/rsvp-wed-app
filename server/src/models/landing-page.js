@@ -1,25 +1,26 @@
 import { db } from '../config/database.js';
 import { uploadImg } from '../utils/cloudinary.js';
+import { defaultImg } from '../utils/cloudinary.js';
 
 // TODO: handle db errors.
-const defaultImg = "samples/sheep";
 
 export class LandingPage {
-    constructor(userID, pageTitle, pageDesc, pageImg = "", pageColor = "#FFFFFF") {
-        this.userID = userID;
-        this.pageTitle = pageTitle;
-        this.pageDesc = pageDesc;
-        this.pageColor = pageColor;
+	constructor(userID, pageTitle, pageDesc, pageImg = '', pageColor = '#FFFFFF') {
+		this.userID = userID;
+		this.pageTitle = pageTitle;
+		this.pageDesc = pageDesc;
+		this.pageColor = pageColor;
+		this.pageImgLink = pageImg;
+	}
 
-        if (pageImg == "" || pageImg == null) {
-            this.pageImgLink = defaultImg;
-        } else {
-            setImg(pageImg);
-        }
-    }
-
-    insertPage() {
-        let query = `INSERT INTO landingpages(
+	async insertPage() {
+		if (this.pageImgLink == '' || this.pageImgLink == null) {
+			this.pageImgLink = defaultImg;
+		} else {
+			this.pageImgLink = await uploadImg(this.pageImgLink);
+		}
+        
+		let query = `INSERT INTO landingpages(
             USER_ID,
             PageTitle,
             PageDesc,
@@ -33,10 +34,9 @@ export class LandingPage {
             '${this.pageImgLink}',
             '${this.pageColor}'
         )`;
-		return db.execute(query);
-    }
 
-    static async setImg(pageImg) {
-        this.pageImgLink = await uploadImg(pageImg);
-    }
+        //TODO: if db error, remove photo from cloudinary.
+
+		return db.execute(query);
+	}
 }

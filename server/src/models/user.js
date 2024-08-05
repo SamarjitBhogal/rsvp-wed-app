@@ -33,6 +33,15 @@ export class User {
 		return result[0];
 	}
 
+	static async doesUserExist(userID) {
+		let query = `SELECT USER_ID FROM users 
+            WHERE USER_ID='${userID}'`;
+		let [result, _] = await db.execute(query);
+
+		result = result.length === 0 ? false : result[0].USER_ID === userID;
+		return result;
+	}
+
 	static async doesEmailExist(userEmail) {
 		let query = `SELECT UserEmail FROM users 
             WHERE UserEmail='${userEmail}'`;

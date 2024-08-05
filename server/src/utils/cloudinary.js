@@ -3,6 +3,8 @@ import { config } from 'dotenv';
 
 config();
 
+export const defaultImg = process.env.DEFAULT_LANDINGPG_IMG;
+
 // Configuration
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_NAME,
@@ -12,6 +14,7 @@ cloudinary.config({
 
 export async function uploadImg(imgURL) {
 	// Upload an image
+	console.log(imgURL);
 	const uploadResult = await cloudinary.uploader.upload(imgURL).catch((error) => {
 		console.log(error);
 	});

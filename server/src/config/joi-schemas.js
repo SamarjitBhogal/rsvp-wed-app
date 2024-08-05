@@ -51,10 +51,6 @@ export const userLogInSchema = Joi.object({
 });
 
 export const createPageSchema = Joi.object({
-	userID: Joi.number().integer().required().messages({
-		'number.base': 'The userID must be an integer.',
-		'any.required': 'An userID is required.',
-	}),
 	pageTitle: Joi.string()
 		.trim()
 		.max(PAGETITLE_MAXLEN)

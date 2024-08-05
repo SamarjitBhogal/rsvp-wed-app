@@ -7,7 +7,7 @@ export async function signJWT(user) {
     const accessToken = jwt.sign(
         user,
         process.env.JWT_SECRET_KEY,
-        { expiresIn: process.env.JWT_EXPIRE_TIME }
+        // { expiresIn: process.env.JWT_EXPIRE_TIME }
     );
     return accessToken;
 }
