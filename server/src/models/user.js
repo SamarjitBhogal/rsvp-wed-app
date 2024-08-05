@@ -4,9 +4,9 @@ import { db } from '../config/database.js';
 
 export class User {
 	constructor(userName, userEmail, password) {
-		this.userName = userName;
-		this.userEmail = userEmail;
-		this.password = password;
+		this.UserName = userName;
+		this.UserEmail = userEmail;
+		this.UserPassword = password;
 	}
 
 	async insertUser() {
@@ -16,12 +16,12 @@ export class User {
             UserPassword
         )
         VALUES(
-            '${this.userName}',
-            '${this.userEmail}',
-            '${this.password}'
+            '${this.UserName}',
+            '${this.UserEmail}',
+            '${this.UserPassword}'
         )`;
 		const result = await db.execute(query);
-		this.userID = result[0].insertId;
+		this.USER_ID = result[0].insertId;
 		return result;
 	}
 
