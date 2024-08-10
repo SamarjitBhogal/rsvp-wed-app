@@ -1,5 +1,5 @@
 import { db } from '../config/database.js';
-import { uploadImg, defaultImg, deleteImg } from '../utils/cloudinary.js';
+import { uploadImg, defaultImg, deleteImg, defaultImg } from '../utils/cloudinary.js';
 
 // TODO: handle db errors.
 
@@ -38,7 +38,16 @@ export class LandingPage {
 	}
 
 	async deletePage(pageID) {
-		let query = `DELETE FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
+		let query = `SELECT PageImageLink FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
+
+		let [result, _] = await db.execute(query);
+		const publicID = result[0].PageImageLink;
+
+		if (publicID != defaultImg) {
+			await deleteImg(result[0].PageImageLink);
+		}
+
+		query = `DELETE FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
 
 		return db.execute(query);
 	}
