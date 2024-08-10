@@ -66,10 +66,11 @@ export class LandingPage {
 
 	static async doesPageExist(pageID) {
 		let query = `SELECT LANDPG_ID FROM landingpages 
-            WHERE LANDPG_ID='${page}'`;
+            WHERE LANDPG_ID='${pageID}'`;
 		let [result, _] = await db.execute(query);
 
-		result = result.length === 0 ? false : result[0].LANDPG_ID === pageID;
+		result = result.length === 0 ? false : result[0].LANDPG_ID == pageID;
+
 		return result;
 	}
 }
