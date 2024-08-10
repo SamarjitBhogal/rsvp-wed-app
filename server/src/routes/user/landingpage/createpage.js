@@ -1,5 +1,4 @@
 import { LandingPage } from '../../../models/landing-page.js';
-import { User } from '../../../models/user.js';
 import { createPageSchema } from '../../../config/joi-schemas.js';
 import { authToken } from '../../../middleware/authenticate.js';
 
@@ -16,9 +15,6 @@ export const post = [
 		}
 
 		let { pageTitle, pageDesc, pageColor, pageImgLink } = req.body;
-
-		// Check if user exists.
-		if (!(await User.doesUserExist(user.USER_ID))) return res.status(404).send({ message: 'User does not exist.' });
 
 		let page = new LandingPage(user.USER_ID, pageTitle, pageDesc, pageImgLink, pageColor);
 

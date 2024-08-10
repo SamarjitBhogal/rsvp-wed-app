@@ -1,5 +1,5 @@
 import { db } from '../config/database.js';
-import { uploadImg, defaultImg, deleteImg, defaultImg } from '../utils/cloudinary.js';
+import { uploadImg, defaultImg, deleteImg } from '../utils/cloudinary.js';
 
 // TODO: handle db errors.
 
@@ -52,8 +52,24 @@ export class LandingPage {
 		return db.execute(query);
 	}
 
+	static async getPageDetails(pageID) {
+		let query = `SELECT * FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
+
+		let [result, _] = await db.execute(query);
+		return result[0];
+	}
+
 	static async deleteImg(pageImgLink) {
 		const result = await deleteImg(pageImgLink);
+		return result;
+	}
+
+	static async doesPageExist(pageID) {
+		let query = `SELECT LANDPG_ID FROM landingpages 
+            WHERE LANDPG_ID='${page}'`;
+		let [result, _] = await db.execute(query);
+
+		result = result.length === 0 ? false : result[0].LANDPG_ID === pageID;
 		return result;
 	}
 }

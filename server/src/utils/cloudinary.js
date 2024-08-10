@@ -25,7 +25,6 @@ export async function uploadImg(imgURL) {
 		console.log(error);
 	});
 
-	console.log(uploadResult);
 	return uploadResult.public_id;
 }
 
