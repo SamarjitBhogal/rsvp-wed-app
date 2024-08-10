@@ -1,4 +1,4 @@
-import { LandingPage } from "../models/landing-page.js";
+import { LandingPage } from "../models/LandingPage.js";
 
 /**
  * A middleware that checks if the request landing pages exists and that the 

@@ -1,4 +1,4 @@
-import { LandingPage } from '../../../models/landing-page.js';
+import { LandingPage } from '../../../models/LandingPage.js';
 import { authToken } from '../../../middleware/authenticate.js';
 import { pageAuthorization } from '../../../middleware/page-access.js';
 
