@@ -12,6 +12,12 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_SECRET,
 });
 
+/**
+ * Uploads an image to the cloundinary database.
+ *
+ * @param {string} imgURL The image URL of it's local location.
+ * @returns
+ */
 export async function uploadImg(imgURL) {
 	// Upload an image
 	console.log(imgURL);
@@ -23,6 +29,12 @@ export async function uploadImg(imgURL) {
 	return uploadResult.public_id;
 }
 
+/**
+ * Retrives an image associated with the given publicId.
+ *
+ * @param {string} publicId The cloundinary publicId of the image.
+ * @returns
+ */
 export async function getImgURL(publicId) {
 	// Optimize delivery by resizing and applying auto-format and auto-quality
 	const optimizeUrl = cloudinary.url(publicId, {
@@ -32,4 +44,14 @@ export async function getImgURL(publicId) {
 
 	console.log(optimizeUrl);
 	return optimizeUrl;
+}
+
+/**
+ * Deletes the image with the given publicId from the database.
+ *
+ * @param {string} publicId The cloundinary publicId of the image.
+ */
+export async function deleteImg(publicId) {
+	const result = await cloudinary.uploader.destroy(publicId);
+	return result;
 }
