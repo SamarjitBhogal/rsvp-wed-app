@@ -1,8 +1,6 @@
 import { db } from '../config/database.js';
 import { uploadImg, defaultImg, deleteImg } from '../utils/cloudinary.js';
 
-// TODO: handle db errors.
-
 export class LandingPage {
 	constructor(userID, pageTitle, pageDesc, pageImg = '', pageColor = '#FFFFFF') {
 		this.userID = userID;
@@ -66,7 +64,18 @@ export class LandingPage {
 
 	static async doesPageExist(pageID) {
 		let query = `SELECT LANDPG_ID FROM landingpages 
-            WHERE LANDPG_ID='${pageID}'`;
+            WHERE LANDPG_ID = '${pageID}'`;
+		let [result, _] = await db.execute(query);
+
+		result = result.length === 0 ? false : result[0].LANDPG_ID == pageID;
+
+		return result;
+	}
+
+	static async doesUserOwnPage(userID, pageID) {
+		let query = `SELECT LANDPG_ID FROM landingpages 
+            WHERE LANDPG_ID = '${pageID}' AND USER_ID = '${userID}'`;
+
 		let [result, _] = await db.execute(query);
 
 		result = result.length === 0 ? false : result[0].LANDPG_ID == pageID;

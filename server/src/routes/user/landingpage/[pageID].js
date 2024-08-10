@@ -1,16 +1,12 @@
 import { LandingPage } from '../../../models/landing-page.js';
 import { authToken } from '../../../middleware/authenticate.js';
+import { pageAuthorization } from '../../../middleware/page-access.js';
 
 export const get = [
 	authToken,
+	pageAuthorization,
 	async (req, res) => {
-		const user = req.user;
-		const pageID = req.params.pageID;
-
-		// Confirm if page exists:
-		if (!(await LandingPage.doesPageExist(pageID))) {
-			return res.status(404).send({ message: 'This page does not exist.' });
-		}
+		const pageID = req.pageID;
 
 		const result = await LandingPage.getPageDetails(pageID);
 

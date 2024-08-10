@@ -4,6 +4,10 @@ import { User } from '../models/user.js';
 
 config();
 
+/**
+ * A middleware that checks user making the request is authorized to that is,
+ * the user is authenticated.
+ */
 export function authToken(req, res, next) {
 	const authHeader = req.headers['authorization'];
 	const token = authHeader && authHeader.split(' ')[1];
@@ -17,7 +21,8 @@ export function authToken(req, res, next) {
 		}
 
 		// Check if user exists.
-		if (!(await User.doesUserExist(user.USER_ID))) return res.status(404).send({ message: 'This user does not exist.' });
+		if (!(await User.doesUserExist(user.USER_ID)))
+			return res.status(404).send({ message: 'This user does not exist.' });
 
 		req.user = user;
 		return next();
