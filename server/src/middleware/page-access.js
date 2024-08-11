@@ -1,4 +1,5 @@
 import { LandingPage } from "../models/LandingPage.js";
+import { decodeNum } from "../utils/hashids.js";
 
 /**
  * A middleware that checks if the request landing pages exists and that the 
@@ -6,7 +7,12 @@ import { LandingPage } from "../models/LandingPage.js";
  */
 export async function pageAuthorization(req, res, next) {
 	const user = req.user;
-	const pageID = req.params.pageID;
+	let pageID = req.params.pageID;
+
+	//? NOTE: still need to test
+	if (isNaN(pageID)) {
+		pageID = decodeNum(pageID);
+	}	
 
 	// Confirm if page exists:
 	if (!(await LandingPage.doesPageExist(pageID))) {
