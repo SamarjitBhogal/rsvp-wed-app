@@ -5,7 +5,7 @@ const Joi = JoiBase.extend(JoiDate);
 
 const USERNAME_MINLEN = 8;
 const USERNAME_MAXLEN = 30;
-const USER_EMAIL_MAXLEN = 125;
+const EMAIL_MAXLEN = 125;
 
 const PAGECOLOR_MAXLEN = 7;
 const PAGEIMGLINK_MAXLEN = 250;
@@ -14,7 +14,8 @@ const TITLE_MAXLEN = 50;
 const DESC_MAXLEN = 350;
 
 const EVENT_MINLEN = 1;
-const EVENT_MIN_COUNT = 0;
+
+const MAX_HEAD_COUNT = 10;
 
 export const userSignUpSchema = Joi.object({
 	userName: Joi.string()
@@ -31,12 +32,12 @@ export const userSignUpSchema = Joi.object({
 	userEmail: Joi.string()
 		.email()
 		.trim()
-		.max(USER_EMAIL_MAXLEN)
+		.max(EMAIL_MAXLEN)
 		.required()
 		.messages({
 			'string.base': 'Email must be of type string.',
 			'string.email': 'The string is not a valid email.',
-			'string.max': `Email must be no more than ${USER_EMAIL_MAXLEN} characters long`,
+			'string.max': `Email must be no more than ${EMAIL_MAXLEN} characters long`,
 			'any.required': 'An email is required.',
 		}),
 	password: Joi.string().required(),
@@ -46,12 +47,12 @@ export const userLogInSchema = Joi.object({
 	userEmail: Joi.string()
 		.email()
 		.trim()
-		.max(USER_EMAIL_MAXLEN)
+		.max(EMAIL_MAXLEN)
 		.required()
 		.messages({
 			'string.base': 'Email must be of type string.',
 			'string.email': 'The string is not a valid email.',
-			'string.max': `Email must be no more than ${USER_EMAIL_MAXLEN} characters long.`,
+			'string.max': `Email must be no more than ${EMAIL_MAXLEN} characters long.`,
 			'any.required': 'An email is required.',
 		}),
 	password: Joi.string().required(),
@@ -133,5 +134,39 @@ export const createPageSchema = Joi.object({
 			'array.min': `There must be at least ${EVENT_MINLEN} event(s).`,
 			'array.includes': 'Events in the array are not proper events.',
 			'any.required': 'An events array is required.',
+		}),
+});
+
+export const createBookingSchema = Joi.object({
+	guestName: Joi.string()
+		.trim()
+		.max(USERNAME_MAXLEN)
+		.required()
+		.messages({
+			'string.base': 'Name must be of type string.',
+			'string.max': `A name must be no more than ${USERNAME_MAXLEN} characters long.`,
+			'any.required': 'A name is required.',
+		}),
+	guestEmail: Joi.string()
+		.email()
+		.trim()
+		.max(EMAIL_MAXLEN)
+		.required()
+		.messages({
+			'string.base': 'Email must be of type string.',
+			'string.email': 'The string is not a valid email.',
+			'string.max': `Email must be no more than ${EMAIL_MAXLEN} characters long.`,
+			'any.required': 'An email is required.',
+		}),
+	headCount: Joi.number()
+		.integer()
+		.min(1)
+		.max(MAX_HEAD_COUNT)
+		.required()
+		.messages({
+			'number.base': 'The number of individuals must be of type integer.',
+			'number.min': 'There must be at least 1 individual attending.',
+			'number.max': `There can be no more than ${MAX_HEAD_COUNT} individuals attending.`,
+			'any.required': 'A body count is required.',
 		}),
 });

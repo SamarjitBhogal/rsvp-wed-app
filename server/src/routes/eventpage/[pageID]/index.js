@@ -4,6 +4,7 @@ export const get = async (req, res) => {
 	let pageID = req.params.pageID;
 
 	//? NOTE: still need to test
+    // need to ensure only a hash is given
 	if (isNaN(pageID)) {
 		pageID = decodeNum(pageID);
 	}
