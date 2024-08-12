@@ -50,11 +50,24 @@ export class LandingPage {
 		return db.execute(query);
 	}
 
-	static async getPageDetails(pageID) {
+	static async getPageDetails(pageID, userID = null) {
+		if (userID == null) return this.getLimitedDetails(pageID);
+
 		let query = `SELECT * FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
 		let [result, _] = await db.execute(query);
 
 		query = `SELECT * FROM events WHERE LANDPG_ID = '${pageID}'`;
+		let [events, _2] = await db.execute(query);
+		result[0].events = events;
+
+		return result[0];
+	}
+
+	static async getLimitedDetails(pageID) {
+		let query = `SELECT PageTitle, PageDesc, PageImageLink, PageColor FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
+		let [result, _] = await db.execute(query);
+
+		query = `SELECT EventName, EventDesc, EventStart, EventEnd FROM events WHERE LANDPG_ID = '${pageID}'`;
 		let [events, _2] = await db.execute(query);
 		result[0].events = events;
 

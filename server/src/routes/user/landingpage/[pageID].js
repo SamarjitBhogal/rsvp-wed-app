@@ -8,7 +8,7 @@ export const get = [
 	async (req, res) => {
 		const pageID = req.pageID;
 
-		const result = await LandingPage.getPageDetails(pageID);
+		const result = await LandingPage.getPageDetails(pageID, req.user);
 
 		return res.status(200).send({ message: 'Landing page details found.', value: result });
 	},
