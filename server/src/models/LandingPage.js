@@ -50,11 +50,14 @@ export class LandingPage {
 		return db.execute(query);
 	}
 
-	//TODO: must send events too.
 	static async getPageDetails(pageID) {
 		let query = `SELECT * FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
-
 		let [result, _] = await db.execute(query);
+
+		query = `SELECT * FROM events WHERE LANDPG_ID = '${pageID}'`;
+		let [events, _2] = await db.execute(query);
+		result[0].events = events;
+
 		return result[0];
 	}
 

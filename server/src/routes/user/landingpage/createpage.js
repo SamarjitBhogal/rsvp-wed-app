@@ -3,7 +3,6 @@ import { Event } from '../../../models/Event.js';
 import { createPageSchema } from '../../../config/joi-schemas.js';
 import { authToken } from '../../../middleware/authenticate.js';
 
-// Send events as an array of JSON with the expectation of 1 event
 export const post = [
 	authToken,
 	async (req, res) => {
