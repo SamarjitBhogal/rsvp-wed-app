@@ -1,7 +1,9 @@
 import { LandingPage } from '../../../models/LandingPage.js';
+import { Event } from '../../../models/Event.js';
 import { createPageSchema } from '../../../config/joi-schemas.js';
 import { authToken } from '../../../middleware/authenticate.js';
 
+// Send events as an array of JSON with the expectation of 1 event
 export const post = [
 	authToken,
 	async (req, res) => {
@@ -14,14 +16,20 @@ export const post = [
 				.send({ message: 'Could not create event landing page.', error: result.error.details[0].message });
 		}
 
-		let { pageTitle, pageDesc, pageColor, pageImgLink } = req.body;
+		let { pageTitle, pageDesc, pageColor, pageImgLink, events } = req.body;
 
 		let page = new LandingPage(user.USER_ID, pageTitle, pageDesc, pageImgLink, pageColor);
 
 		try {
-			await page.insertPage();
+			const pageResult = await page.insertPage();
+
+			events.forEach(async (e) => {
+				let event = new Event(pageResult[0].insertId, e.eventName, e.eventDesc, e.eventStart, e.eventEnd);
+				await event.insertEvent();
+			});
 		} catch (error) {
 			// database error
+			//? move page inside LandingPage
 			const delResult = await LandingPage.deleteImg(page.pageImgLink);
 			if (delResult.result === 'not found') {
 				return res
