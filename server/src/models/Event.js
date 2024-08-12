@@ -30,4 +30,30 @@ export class Event {
 
 		return db.execute(query);
 	}
+
+	static async getEventDetails(eventID, userID = null) {
+		if (!userID) return this.getLimitedEventDetails(eventID);
+
+		let query = `SELECT * FROM events WHERE EVENT_ID = '${eventID}'`;
+		let [event, _] = await db.execute(query);
+
+		return event[0];
+	}
+
+	static async getLimitedEventDetails(eventID) {
+		let query = `SELECT EventName, EventDesc, EventStart, EventEnd FROM events WHERE EVENT_ID = '${eventID}'`;
+		let [event, _] = await db.execute(query);
+
+		return event[0];
+	}
+
+    static async doesEventExist(eventID) {
+        let query = `SELECT EVENT_ID FROM events 
+            WHERE EVENT_ID = '${eventID}'`;
+		let [result, _] = await db.execute(query);
+
+		result = result.length === 0 ? false : result[0].EVENT_ID == eventID;
+
+		return result;
+    }
 }

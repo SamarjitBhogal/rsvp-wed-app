@@ -51,7 +51,7 @@ export class LandingPage {
 	}
 
 	static async getPageDetails(pageID, userID = null) {
-		if (userID == null) return this.getLimitedDetails(pageID);
+		if (!userID) return this.getLimitedDetails(pageID);
 
 		let query = `SELECT * FROM landingpages WHERE LANDPG_ID = '${pageID}'`;
 		let [result, _] = await db.execute(query);
