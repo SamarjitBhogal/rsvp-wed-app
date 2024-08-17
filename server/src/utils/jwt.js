@@ -3,11 +3,20 @@ import { config } from 'dotenv';
 
 config();
 
-export async function signJWT(user) {
+export function signJWT(user) {
 	const accessToken = jwt.sign(
-		{ USER_ID: user.USER_ID, UserName: user.UserName, UserEmail: user.UserEmail },
+		user,
 		process.env.JWT_SECRET_KEY,
 		// { expiresIn: process.env.JWT_EXPIRE_TIME }
 	);
 	return accessToken;
+}
+
+export function verifyJWT(token) {
+	try {
+		const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+		return user;
+	} catch (error) {
+		return null;
+	}
 }

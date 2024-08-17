@@ -14,7 +14,7 @@ export const post = async (req, res) => {
 	if (!user) return res.status(400).send({ message: 'Invalid credentials.' });
 
     const compareResult = compareHashedPasswords(password, user.UserPassword);
-    if (!compareResult) return res.status(400).send({ message: 'Invalid password.' });
+    if (!compareResult) return res.status(400).send({ message: 'Invalid credentials.' });
 
 	return res.status(200).send({ message: 'Login successfull.', accessToken: await signJWT(user) });
 };
