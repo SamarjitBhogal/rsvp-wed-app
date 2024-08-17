@@ -41,7 +41,6 @@ export async function getImgURL(publicId) {
 		quality: 'auto',
 	});
 
-	console.log(optimizeUrl);
 	return optimizeUrl;
 }
 
