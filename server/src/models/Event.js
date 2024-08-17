@@ -47,13 +47,18 @@ export class Event {
 		return event[0];
 	}
 
-    static async doesEventExist(eventID) {
-        let query = `SELECT EVENT_ID FROM events 
+	static async doesEventExist(eventID) {
+		let query = `SELECT EVENT_ID FROM events 
             WHERE EVENT_ID = '${eventID}'`;
 		let [result, _] = await db.execute(query);
 
 		result = result.length === 0 ? false : result[0].EVENT_ID == eventID;
 
 		return result;
-    }
+	}
+
+	static async updateEvent(eventID, headCount) {
+		let query = `UPDATE events SET EventCount = EventCount + ${headCount} WHERE EVENT_ID = '${eventID}'`;
+		return await db.execute(query);
+	}
 }

@@ -54,12 +54,15 @@ export const post = async (req, res) => {
 	}
 
 	const { guestName, guestEmail, headCount } = req.body;
+	//confirm if already booked if so return message of 'you already booked this event'
+	if (await Guest.doesGuestExist(eventID, guestName, guestEmail)) {
+		return res.status(409).send({ message: 'You have already booked this event.' });
+	}
 
 	let guest = new Guest(eventID, guestName, guestEmail);
 
 	try {
 		const guestResult = await guest.insertGuest();
-
 		let booking = new Booking(eventID, guestResult[0].insertId, headCount);
 
 		await booking.insertBooking();

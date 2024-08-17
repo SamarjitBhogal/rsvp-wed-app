@@ -21,4 +21,19 @@ export class Guest {
 
 		return db.execute(query);
 	}
+
+	static async doesGuestExist(eventID, guestName, guestEmail) {
+		let query = `SELECT EVENT_ID, GuestName, GuestEmail FROM guests 
+            WHERE GuestName = '${guestName}' AND GuestEmail = '${guestEmail}' AND EVENT_ID = ${eventID}`;
+		let [result, _] = await db.execute(query);
+
+		result =
+			result.length === 0
+				? false
+				: result[0].GuestName == guestName &&
+				  result[0].GuestEmail == guestEmail &&
+				  result[0].EVENT_ID == eventID;
+
+		return result;
+	}
 }

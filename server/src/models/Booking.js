@@ -1,4 +1,5 @@
 import { db } from '../config/database.js';
+import { Event } from './Event.js';
 
 export class Booking {
 	constructor(eventID, guestID, headCount) {
@@ -19,6 +20,7 @@ export class Booking {
             '${this.headCount}'
         )`;
 
-		return db.execute(query);
+		await db.execute(query);
+        await Event.updateEvent(this.eventID, this.headCount);
 	}
 }
