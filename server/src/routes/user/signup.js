@@ -23,5 +23,23 @@ export const post = async (req, res) => {
 		return res.status(500).send({ message: 'Failed to create user.', error: error });
 	}
 
-	return res.status(201).send({ message: 'Signup successfull.', accessToken: await signJWT(user) });
+	const accessToken = signJWT(user, '1h');
+	const refreshToken = signJWT(user, '1d');
+
+	res.cookie('accessToken', accessToken, {
+		secure: true,
+		httpOnly: true,
+		sameSite: 'strict',
+		maxAge: 60 * 60 * 1000,
+	});
+
+	res.cookie('refreshToken', refreshToken, {
+		secure: true,
+		httpOnly: true,
+		sameSite: 'strict',
+		maxAge: 24 * 60 * 60 * 1000,
+	});
+
+	//* We coud send back user information from decoded accessToken
+	return res.status(201).send({ message: 'Signup successfull.' });
 };

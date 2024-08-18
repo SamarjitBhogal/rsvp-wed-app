@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import createRouter from 'express-file-routing';
 import { config } from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 config();
 const app = express();
@@ -21,6 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 await createRouter(app, { directory: path.join(SERVER_SRC, 'routes') }); // as wrapper function
 

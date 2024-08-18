@@ -13,8 +13,26 @@ export const post = async (req, res) => {
 	const user = await User.getUser(userEmail);
 	if (!user) return res.status(400).send({ message: 'Invalid credentials.' });
 
-    const compareResult = compareHashedPasswords(password, user.UserPassword);
-    if (!compareResult) return res.status(400).send({ message: 'Invalid credentials.' });
+	const compareResult = compareHashedPasswords(password, user.UserPassword);
+	if (!compareResult) return res.status(400).send({ message: 'Invalid credentials.' });
 
-	return res.status(200).send({ message: 'Login successfull.', accessToken: await signJWT(user) });
+	const accessToken = signJWT(user, '5s');
+	const refreshToken = signJWT(user, '1d');
+
+	res.cookie('accessToken', accessToken, {
+		secure: true,
+		httpOnly: true,
+		sameSite: 'strict',
+		maxAge: 5 * 60 * 1000,
+	});
+
+	res.cookie('refreshToken', refreshToken, {
+		secure: true,
+		httpOnly: true,
+		sameSite: 'strict',
+		maxAge: 24 * 60 * 60 * 1000,
+	});
+
+	//* We coud send back user information from decoded accessToken
+	return res.status(200).send({ message: 'Login successfull.' });
 };

@@ -3,18 +3,19 @@ import { config } from 'dotenv';
 
 config();
 
-export function signJWT(user) {
+export function signJWT(user, expiresIn) {
 	const accessToken = jwt.sign(
-		user,
-		process.env.JWT_SECRET_KEY,
-		// { expiresIn: process.env.JWT_EXPIRE_TIME }
+		{ USER_ID: user.USER_ID, UserName: user.UserName, UserEmail: user.UserEmail },
+		process.env.JWT_PRIVATE_KEY,
+		// { algorithm: 'RS256' },
+		{ expiresIn: expiresIn },
 	);
 	return accessToken;
 }
 
 export function verifyJWT(token) {
 	try {
-		const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+		const user = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
 		return user;
 	} catch (error) {
 		return null;
