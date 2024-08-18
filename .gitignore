@@ -27,3 +27,4 @@
 
 # Secret files
 **/*.env
+**/*.pem
