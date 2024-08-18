@@ -50,6 +50,19 @@ export class LandingPage {
 		return db.execute(query);
 	}
 
+	/**
+	 * Returns a list of all pages with the given userID
+	 * 
+	 * @param {int} userID The ID to search for pages on.
+	 * @returns List of all pages.
+	 * @note Assumes userID is a valid ID.
+	 */
+	static async getPages(userID) {
+		const query = `SELECT * FROM landingpages WHERE USER_ID = ${userID}`;
+		const [result, _] = await db.execute(query);
+		return result;
+	}
+
 	static async getPageDetails(pageID, userID = null) {
 		if (!userID) return this.getLimitedDetails(pageID);
 

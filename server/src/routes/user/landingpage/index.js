@@ -4,9 +4,9 @@ import { authToken } from '../../../middleware/authenticate.js';
 export const get = [
 	authToken,
 	async (req, res) => {
-		const userID = req.userID;
+		const user = req.user;
 
-		// get all pages
+		const result = await LandingPage.getPages(user.USER_ID);
 
 		return res.status(200).send({ message: 'Pages found.', value: result });
 	},
