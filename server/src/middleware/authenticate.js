@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import { User } from '../models/user.js';
-import { signJWT, verifyJWT } from '../utils/jwt.js';
+import { signJWT, verifyJWT, MAX_ACCESS_TIME } from '../utils/jwt.js';
 
 config();
 
@@ -10,8 +10,6 @@ config();
  */
 export async function authToken(req, res, next) {
 	const { accessToken, refreshToken } = req.cookies;
-	// const authHeader = req.headers['authorization'];
-	// const accessToken = authHeader && authHeader.split(' ')[1];
 	if (accessToken == null) {
 		return res.status(401).send({ message: 'Inappropriate request. Bad header format or unauthenticated.' });
 	}
@@ -21,9 +19,7 @@ export async function authToken(req, res, next) {
 	if (!user) {
 		// generate new access token with refresh token. first check if refresh is valid if not log out and tell user to log in.
 		// if valid generate new access token and overwrite cookie
-		return refreshAToken(req, res, next, refreshToken);
-
-		//return res.status(403).send({ message: 'Token invalid. User request is unauthorized. User must login.' });
+		return await refreshAToken(req, res, next, refreshToken);
 	}
 
 	if (!(await User.doesUserExist(user.USER_ID))) {
@@ -44,14 +40,14 @@ async function refreshAToken(req, res, next, refreshToken) {
 	if (!(await User.doesUserExist(user.USER_ID))) {
 		return res.status(404).send({ message: 'This user does not exist.' });
 	}
-	console.log('made it here wooohooo');
-	const accessToken = signJWT(user, '5s');
+	
+	const accessToken = signJWT(user, MAX_ACCESS_TIME / 1000);
 
 	res.cookie('accessToken', accessToken, {
 		secure: true,
 		httpOnly: true,
 		sameSite: 'strict',
-		maxAge: 500 * 60 * 60 * 1000,
+		maxAge: MAX_ACCESS_TIME,
 	});
 
 	req.user = user;

@@ -1,7 +1,7 @@
 import { User } from '../../models/user.js';
 import { userSignUpSchema } from '../../config/joi-schemas.js';
 import { createHashedPassword } from '../../utils/bcrypt.js';
-import { signJWT } from '../../utils/jwt.js';
+import { signJWT, MAX_ACCESS_TIME, MAX_REFRESH_TIME } from '../../utils/jwt.js';
 
 export const post = async (req, res) => {
 	const result = userSignUpSchema.validate(req.body);
@@ -23,21 +23,21 @@ export const post = async (req, res) => {
 		return res.status(500).send({ message: 'Failed to create user.', error: error });
 	}
 
-	const accessToken = signJWT(user, '1h');
-	const refreshToken = signJWT(user, '1d');
+	const accessToken = signJWT(user, MAX_ACCESS_TIME);
+	const refreshToken = signJWT(user, MAX_REFRESH_TIME);
 
 	res.cookie('accessToken', accessToken, {
 		secure: true,
 		httpOnly: true,
 		sameSite: 'strict',
-		maxAge: 60 * 60 * 1000,
+		maxAge: MAX_ACCESS_TIME,
 	});
 
 	res.cookie('refreshToken', refreshToken, {
 		secure: true,
 		httpOnly: true,
 		sameSite: 'strict',
-		maxAge: 24 * 60 * 60 * 1000,
+		maxAge: MAX_REFRESH_TIME,
 	});
 
 	//* We coud send back user information from decoded accessToken
