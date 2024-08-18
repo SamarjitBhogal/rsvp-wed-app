@@ -19,6 +19,7 @@ export const MAX_ACCESS_TIME = process.env.JWT_ACCESS_TIME;
  */
 export const MAX_REFRESH_TIME = process.env.JWT_REFRESH_TIME;
 
+// TODO make key pair work
 //const PUBLIC_KEY = fs.readFileSync(__dirname + '/public.pem', 'utf8');
 //const PRIVATE_KEY = fs.readFileSync(__dirname + '/private.pem', 'utf8');
 
