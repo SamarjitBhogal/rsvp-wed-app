@@ -7,18 +7,14 @@ config();
 /**
  * A middleware that checks user making the request is authorized to that is,
  * the user is authenticated.
+ * 
+ * TODO: rename to authGuard
  */
 export async function authToken(req, res, next) {
 	const { accessToken, refreshToken } = req.cookies;
-	if (accessToken == null) {
-		return res.status(401).send({ message: 'Inappropriate request. Bad header format or unauthenticated.' });
-	}
-
 	const user = verifyJWT(accessToken);
 
 	if (!user) {
-		// generate new access token with refresh token. first check if refresh is valid if not log out and tell user to log in.
-		// if valid generate new access token and overwrite cookie
 		return await refreshAToken(req, res, next, refreshToken);
 	}
 
