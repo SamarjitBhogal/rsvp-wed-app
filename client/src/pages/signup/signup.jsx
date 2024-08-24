@@ -1,9 +1,9 @@
 import styles from './signup.module.css';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/axios';
 
 const SignupPage = () => {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const handleSignup = (event) => {
 		event.preventDefault();

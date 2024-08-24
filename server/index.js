@@ -16,7 +16,8 @@ const SERVER_SRC = path.join(__dirname, 'src');
 const PORT = process.env.PORT;
 
 const corsOptions = {
-	origin: ['http://localhost:5173'],
+	origin: 'http://localhost:5173',
+	credentials: true,
 };
 
 app.use(cors(corsOptions));

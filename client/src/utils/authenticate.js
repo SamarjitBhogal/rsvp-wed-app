@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../utils/axios';
 
 //login
 
@@ -11,14 +11,9 @@ import axios from 'axios';
  */
 export async function getAuthenticatedUser() {
 	try {
-		const result = axios.get('http://localhost:3000/user');
-		if (result) {
-			console.log('here');
-			return result.value;
-		} else {
-			return null;
-		}
+		const result = await axios.get('http://localhost:3000/user');
+		return result.data.value;
 	} catch (error) {
-		return error;
+		console.log('Could not get authenticated user: ' + error);
 	}
 }

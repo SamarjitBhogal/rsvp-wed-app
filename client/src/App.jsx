@@ -20,15 +20,24 @@ const App = () => {
 	//let location = useLocation();
 	const [authenticatedUser, setAuthenticatedUser] = useState();
 
-	useEffect(async () => {
-		const user = await getAuthenticatedUser();
-		setAuthenticatedUser(user);
+	useEffect(() => {
+		const handleUserAuthStatus = async () => {
+			getAuthenticatedUser().then((user) => {
+				console.log(user);
+				setAuthenticatedUser(user);
+			});
+		};
+		handleUserAuthStatus();
+		//console.log(authenticatedUser);
 	}, [window.location]);
 
-	const authRouter = createBrowserRouter([
+	const commonRoutes = [
 		{ path: '/', element: <LandingPage /> },
-		{ path: '/home', element: <h1>HOME</h1> },
-	]);
+		{ path: '/signup', element: <SignupPage /> },
+		{ path: '/login', element: <LoginPage /> },
+	];
+
+	const authRouter = createBrowserRouter(commonRoutes.concat([{ path: '/home', element: <h1>HOME</h1> }]));
 
 	const router = createBrowserRouter([
 		{ path: '/', element: <LandingPage /> },
@@ -44,7 +53,6 @@ const App = () => {
 
 	const routes = (
 		<>
-			<Header />
 			<RouterProvider router={router} />
 		</>
 	);
@@ -52,7 +60,14 @@ const App = () => {
 	return (
 		//TODO: Authenticated routes and non-authenticated routes.
 		<>
-			{authenticatedUser ? authRoutes : routes}
+			{authenticatedUser ? (
+				authRoutes
+			) : (
+				<>
+					<Header />
+					{routes}
+				</>
+			)}
 		</>
 	);
 };
