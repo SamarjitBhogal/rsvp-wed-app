@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { getAuthenticatedUser } from './utils/authenticate';
 
 import Header from './components/header/header';
@@ -10,7 +10,6 @@ import HeaderAfterLogin from './components/header/header-after-login';
 
 const App = () => {
 	const [authenticatedUser, setAuthenticatedUser] = useState(null);
-	//const [loc] = useLocation();
 
 	useEffect(() => {
 		const handleUserAuthStatus = async () => {
@@ -26,7 +25,6 @@ const App = () => {
 			<Route path='/' element={<LandingPage />} />
 			<Route path='/login' element={<LoginPage />} />
 			<Route path='/signup' element={<SignupPage />} />
-			<Route path='*' element={<Navigate to={'/login'} replace />} />
 		</>
 	);
 
@@ -34,15 +32,14 @@ const App = () => {
 		<>
 			{commonRoutes}
 			<Route path='/home' element={<h1>HOME</h1>} />
-			<Route path='*' element={<Navigate to={'/home'} replace />} />
 		</>
 	);
-	//TODO: Need a better way to handle default routes and to seperate common and protected routes
 	return (
 		<>
 			{authenticatedUser ? <HeaderAfterLogin /> : <Header />}
 			{/** NOTE: There must be only 1 Route element. Route seperation must happen only within this one. */}
 			<Routes>{authenticatedUser ? protectedRoutes : commonRoutes}</Routes>
+			<Route path='*' element={<h1>404 Page Not Found.</h1>} />
 		</>
 	);
 };
