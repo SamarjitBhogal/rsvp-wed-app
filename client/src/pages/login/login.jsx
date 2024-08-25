@@ -1,10 +1,8 @@
 import styles from './login.module.css';
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import axios from '../../utils/axios';
 
 const LoginPage = () => {
-	const navigate = useNavigate();
-
 	const handleLogin = (event) => {
 		event.preventDefault();
 		axios
@@ -14,7 +12,7 @@ const LoginPage = () => {
 			})
 			.then((res) => {
 				console.log(res);
-				navigate("/home");
+				return redirect("/home");
 			});
 	};
 
