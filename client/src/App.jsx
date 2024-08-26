@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { getAuthenticatedUser } from './utils/authenticate';
 
 import Header from './components/header/header';
@@ -10,6 +10,7 @@ import HeaderAfterLogin from './components/header/header-after-login';
 
 const App = () => {
 	const [authenticatedUser, setAuthenticatedUser] = useState(null);
+	let location = useLocation();
 
 	useEffect(() => {
 		const handleUserAuthStatus = async () => {
@@ -18,7 +19,7 @@ const App = () => {
 			});
 		};
 		handleUserAuthStatus();
-	}, []);
+	}, [location]);
 
 	const commonRoutes = (
 		<>
@@ -38,8 +39,10 @@ const App = () => {
 		<>
 			{authenticatedUser ? <HeaderAfterLogin /> : <Header />}
 			{/** NOTE: There must be only 1 Route element. Route seperation must happen only within this one. */}
-			<Routes>{authenticatedUser ? protectedRoutes : commonRoutes}</Routes>
-			<Route path='*' element={<h1>404 Page Not Found.</h1>} />
+			<Routes>
+				{authenticatedUser ? protectedRoutes : commonRoutes}
+				<Route path='*' element={<h1>404 Page Not Found.</h1>} />
+			</Routes>
 		</>
 	);
 };
