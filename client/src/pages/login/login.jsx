@@ -1,21 +1,14 @@
 import styles from './login.module.css';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../utils/axios';
+import { loginUser } from '../../utils/authenticate';
 
 const LoginPage = () => {
 	const navigate = useNavigate();
 
 	const handleLogin = (event) => {
 		event.preventDefault();
-		axios
-			.post('http://localhost:3000/user/login', {
-				userEmail: event.target[0].value,
-				password: event.target[1].value,
-			})
-			.then((res) => {
-				console.log(res);
-				navigate('/home');
-			});
+		loginUser(event);
+		navigate('/home');
 	};
 
 	return (

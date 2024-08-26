@@ -17,8 +17,6 @@ const App = () => {
 		const handleUserAuthStatus = async () => {
 			getAuthenticatedUser().then((user) => {
 				setAuthenticatedUser(user);
-				//temp solution as we need to make redirection to login page if trying to access page that needs auth.
-				localStorage.setItem('user', user);
 			});
 		};
 		handleUserAuthStatus();
@@ -32,9 +30,10 @@ const App = () => {
 		</>
 	);
 
+	// TODO: Use this again.
 	const protectedRoutes = <Route path='/home' element={<h1>HOME</h1>} />;
 
-	// TODO: null user on first redirect after login
+	// TODO: Protected route is not protected.... Header and Header after login dont switch when authenticated.
 	return (
 		<>
 			{authenticatedUser ? <HeaderAfterLogin /> : <Header />}
