@@ -1,7 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-const ProtectedRoute = (props) => {
-	if (!props.isAuthenticated) {
+const ProtectedRoute = () => {
+	const user = localStorage.getItem('user');
+	if (user == 'null') {
 		return <Navigate to='/login' replace />;
 	}
 	return <Outlet />;
