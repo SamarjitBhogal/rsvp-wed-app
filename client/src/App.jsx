@@ -34,13 +34,15 @@ const App = () => {
 
 	const protectedRoutes = <Route path='/home' element={<h1>HOME</h1>} />;
 
+	// TODO: null user on first redirect after login
 	return (
 		<>
 			{authenticatedUser ? <HeaderAfterLogin /> : <Header />}
-			{/** NOTE: There must be only 1 Route element. Route seperation must happen only within this one. */}
 			<Routes>
 				{commonRoutes}
-				<Route element={<ProtectedRoute />}>{protectedRoutes}</Route>
+				<Route element={<ProtectedRoute />}>
+					<Route path='/home' element={<h1>HOME</h1>} />
+				</Route>
 				<Route path='*' element={<h1>404 Page Not Found.</h1>} />
 			</Routes>
 		</>

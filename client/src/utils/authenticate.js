@@ -3,6 +3,14 @@ import axios from '../utils/axios';
 //login
 
 //logout
+export async function logoutUser() {
+	try {
+		const result = await axios.get('http://localhost:3000/user/logout');
+		return result.data;
+	} catch (error) {
+		console.log('Could not logout user: ' + error);
+	}
+}
 
 /**
  * Fetches the authenticated user making this request.
