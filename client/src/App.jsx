@@ -36,7 +36,7 @@ const App = () => {
 	// TODO: Protected route is not protected.... Header and Header after login dont switch when authenticated.
 	return (
 		<>
-			{authenticatedUser ? <HeaderAfterLogin /> : <Header />}
+			{/* {authenticatedUser ? <HeaderAfterLogin /> : <Header />} */} {/** !SLC scope lowered comment */}
 			<Routes>
 				{commonRoutes}
 				<Route element={<ProtectedRoute />}>
