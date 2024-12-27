@@ -33,7 +33,7 @@ export class Event {
 
 	/**
 	 * Returns a list of all events with the given pageID
-	 * 
+	 *
 	 * @param {int} pageID The ID to search for events on.
 	 * @returns List of all events.
 	 * @note Assumes pageID is a valid ID.
@@ -46,10 +46,10 @@ export class Event {
 
 	/**
 	 * Returns an event from the database that corresponds to the given pageID and eventID.
-	 * 
+	 *
 	 * @param {int} pageID The page ID of the event.
 	 * @param {int} eventID	The event ID of the event.
-	 * @returns An event as a JSON object. 
+	 * @returns An event as a JSON object.
 	 */
 	static async getEvent(pageID, eventID) {
 		const query = `SELECT * FROM events WHERE LANDPG_ID = ${pageID} AND EVENT_ID = ${eventID}`;
@@ -57,10 +57,8 @@ export class Event {
 		return result[0];
 	}
 
-	static async getEventDetails(eventID, userID = null) {
-		if (!userID) return this.getLimitedEventDetails(eventID);
-
-		let query = `SELECT * FROM events WHERE EVENT_ID = '${eventID}'`;
+	static async getEventDetails(eventName) {
+		let query = `SELECT * FROM events WHERE name = '${eventName}'`;
 		let [event, _] = await db.execute(query);
 
 		return event[0];
@@ -73,18 +71,18 @@ export class Event {
 		return event[0];
 	}
 
-	static async doesEventExist(eventID) {
-		let query = `SELECT EVENT_ID FROM events 
-            WHERE EVENT_ID = '${eventID}'`;
+	static async doesEventExist(eventName) {
+		let query = `SELECT name FROM Events 
+            WHERE name = '${eventName}'`;
 		let [result, _] = await db.execute(query);
 
-		result = result.length === 0 ? false : result[0].EVENT_ID == eventID;
+		result = result.length === 0 ? false : result[0].name == eventName;
 
 		return result;
 	}
 
 	static async updateEvent(eventID, headCount) {
-		let query = `UPDATE events SET EventCount = EventCount + ${headCount} WHERE EVENT_ID = '${eventID}'`;
+		let query = `UPDATE events SET headCount = headCount + ${headCount} WHERE ID = '${eventID}'`;
 		return await db.execute(query);
 	}
 }

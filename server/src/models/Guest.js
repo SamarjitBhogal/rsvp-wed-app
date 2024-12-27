@@ -1,38 +1,42 @@
 import { db } from '../config/database.js';
 
 export class Guest {
-	constructor(eventID, guestName, guestEmail) {
+	constructor(eventID, firstName, lastName, email, accompanyingHeadCount) {
 		this.eventID = eventID;
-		this.guestName = guestName;
-		this.guestEmail = guestEmail;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.accompanyingHeadCount = accompanyingHeadCount;
 	}
 
 	async insertGuest() {
 		let query = `INSERT INTO guests(
-            EVENT_ID,
-            GuestName,
-            GuestEmail
+            eventID,
+            firstName,
+			lastName,
+            email,
+			accompanyingHeadCount
         )
         VALUES(
             '${this.eventID}',
-            '${this.guestName}',
-            '${this.guestEmail}'
+            '${this.firstName}',
+			'${this.lastName}',
+            '${this.email}',
+			'${this.accompanyingHeadCount}'
         )`;
 
 		return db.execute(query);
 	}
 
-	static async doesGuestExist(eventID, guestName, guestEmail) {
-		let query = `SELECT EVENT_ID, GuestName, GuestEmail FROM guests 
-            WHERE GuestName = '${guestName}' AND GuestEmail = '${guestEmail}' AND EVENT_ID = ${eventID}`;
+	static async doesGuestExist(eventID, firstName, email) {
+		let query = `SELECT ID, firstName, email FROM Guests 
+            WHERE firstName = '${firstName}' AND email = '${email}' AND ID = ${eventID}`;
 		let [result, _] = await db.execute(query);
 
 		result =
 			result.length === 0
 				? false
-				: result[0].GuestName == guestName &&
-				  result[0].GuestEmail == guestEmail &&
-				  result[0].EVENT_ID == eventID;
+				: result[0].firstName == firstName && result[0].email == email && result[0].ID == eventID;
 
 		return result;
 	}
