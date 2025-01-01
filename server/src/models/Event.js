@@ -90,7 +90,7 @@ export class Event {
 	static async checkEventAccess(eventID, accessCode) {
 		const query = `SELECT accessCode FROM events WHERE ID = ${eventID}`;
 		const [result, _] = await db.execute(query);
-		const codeHash = result[0].accessCode;
+		const codeHash = result[0].accessCode
 
 		const compareResult = compareHashedPasswords(accessCode, codeHash);
 

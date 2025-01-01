@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { User } from '../models/user.js';
+// import { User } from '../models/user.js';
 import { verifyJWT } from '../utils/jwt.js';
 
 config();
@@ -20,32 +20,32 @@ export async function accessGuard(req, res, next) {
 	return next();
 }
 
-export async function IsAuthenticated(req, res, next) {
-	const { accessToken, refreshToken } = req.cookies;
-	const user = verifyJWT(accessToken);
+// export async function IsAuthenticated(req, res, next) {
+// 	const { accessToken, refreshToken } = req.cookies;
+// 	const user = verifyJWT(accessToken);
 
-	if (!user) {
-		const refreshUser = verifyJWT(refreshToken);
+// 	if (!user) {
+// 		const refreshUser = verifyJWT(refreshToken);
 
-		if (!refreshUser) {
-			req.user = null;
-			return next();
-		}
+// 		if (!refreshUser) {
+// 			req.user = null;
+// 			return next();
+// 		}
 
-		if (!(await User.doesUserExist(refreshUser.USER_ID))) {
-			req.user = null;
-			return next();
-		}
+// 		if (!(await User.doesUserExist(refreshUser.USER_ID))) {
+// 			req.user = null;
+// 			return next();
+// 		}
 
-		req.user = refreshUser;
-		return next();
-	}
+// 		req.user = refreshUser;
+// 		return next();
+// 	}
 
-	if (!(await User.doesUserExist(user.USER_ID))) {
-		req.user = null;
-		return next();
-	}
+// 	if (!(await User.doesUserExist(user.USER_ID))) {
+// 		req.user = null;
+// 		return next();
+// 	}
 
-	req.user = user;
-	return next();
-}
+// 	req.user = user;
+// 	return next();
+// }

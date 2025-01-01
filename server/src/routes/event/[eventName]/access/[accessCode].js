@@ -15,8 +15,7 @@ export const get = async (req, res) => {
 	const eventResult = await Event.getEventDetails(eventName);
 	req.eventID = eventResult.ID;
 
-	// TODO Need to check if bycrpt works here
-	if (!Event.checkEventAccess(req.eventID, accessCode)) {
+	if (!(await Event.checkEventAccess(req.eventID, accessCode))) {
 		return res.status(400).send({ message: 'Invalid access code / event.' });
 	}
 
