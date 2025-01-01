@@ -1,22 +1,40 @@
 import { config } from 'dotenv';
 // import { User } from '../models/user.js';
+import { Event } from '../models/Event.js';
 import { verifyJWT } from '../utils/jwt.js';
 
 config();
 
 /**
- * A middleware that checks user making the request is authorized to that is,
- * the user is authenticated.
+ * Checks for auth and event existence. 
  */
 export async function accessGuard(req, res, next) {
 	const { accessToken } = req.cookies;
 	const accessCode = verifyJWT(accessToken);
 
-	if (!accessCode || req.eventID != accessCode.ID || req.eventName != accessCode.name) {
-		return res.status(403).send({ message: 'Invalid access. User does not have the required access code for this event.' });
+	if (!accessCode) {
+		return res
+			.status(403)
+			.send({ message: 'Invalid access. User does not have the required access code for this event.' });
 	}
 
-	req.accessCode = accessCode;
+	const eventName = req.params.eventName;
+
+	// Confirm if event exists:
+	if (!(await Event.doesEventExist(eventName))) {
+		return res.status(404).send({ message: 'This event does not exist.' });
+	}
+
+	const eventResult = await Event.getEventDetails(eventName);
+
+	if (eventResult.ID != accessCode.ID || eventResult.name != accessCode.name) {
+		return res
+			.status(403)
+			.send({ message: 'Invalid access. User does not have the required access code for this event.' });
+	}
+
+	req.eventName = eventResult.name;
+	req.eventID = eventResult.ID;
 	return next();
 }
 

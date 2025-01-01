@@ -29,15 +29,10 @@ export class Guest {
 	}
 
 	static async doesGuestExist(eventID, firstName, email) {
-		let query = `SELECT ID, firstName, email FROM Guests 
-            WHERE firstName = '${firstName}' AND email = '${email}' AND ID = ${eventID}`;
+		let query = `SELECT eventID, firstName, email FROM Guests 
+            WHERE firstName = '${firstName}' AND email = '${email}' AND eventID = ${eventID}`;
 		let [result, _] = await db.execute(query);
 
-		result =
-			result.length === 0
-				? false
-				: result[0].firstName == firstName && result[0].email == email && result[0].ID == eventID;
-
-		return result;
+		return result.length > 0;
 	}
 }

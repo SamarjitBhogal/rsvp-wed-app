@@ -13,9 +13,8 @@ export const get = async (req, res) => {
 	}
 
 	const eventResult = await Event.getEventDetails(eventName);
-	req.eventID = eventResult.ID;
 
-	if (!(await Event.checkEventAccess(req.eventID, accessCode))) {
+	if (!(await Event.checkEventAccess(eventResult.ID, accessCode))) {
 		return res.status(400).send({ message: 'Invalid access code / event.' });
 	}
 

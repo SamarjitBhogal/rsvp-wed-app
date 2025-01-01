@@ -2,11 +2,11 @@ import { Guest } from '../../../models/Guest.js';
 import { Event } from '../../../models/Event.js';
 import { createGuestsSchema } from '../../../config/joi-schemas.js';
 import { accessGuard } from '../../../middleware/authenticate.js';
+import StatusCodes from 'http-status-codes';
 
 const NULL_ACCOMPANYING_HEAD_COUNT = 0;
 const MAIN_GUEST_INCREMENT = 1;
 
-// TODO: need middleware to ensure we have valid JWT session
 export const post = [
 	accessGuard,
 	async (req, res) => {
@@ -15,22 +15,19 @@ export const post = [
 
 		if (result.error) {
 			return res
-				.status(400)
+				.status(StatusCodes.BAD_REQUEST)
 				.send({ message: 'Could not create booking.', error: result.error.details[0].message });
-		}
-
-		let eventName = req.params.eventName;
-
-		// Confirm if event exists:
-		if (!(await Event.doesEventExist(eventName))) {
-			return res.status(404).send({ message: 'Could not complete booking the event does not exist.' });
 		}
 
 		const { eventID, firstName, lastName, email, accompanyingHeadCount } = req.body;
 
+		if (eventID != req.eventID) {
+			return res.status(StatusCodes.BAD_REQUEST).send({ message: 'You do not have access to this event.' });
+		}
+
 		// confirm if already booked if so return message of 'you already booked this event'
 		if (await Guest.doesGuestExist(eventID, firstName, email)) {
-			return res.status(409).send({ message: 'You have already booked this event.' });
+			return res.status(StatusCodes.CONFLICT).send({ message: 'You have already booked this event.' });
 		}
 
 		// create guests
@@ -38,7 +35,7 @@ export const post = [
 		let mainGuest = new Guest(eventID, firstName, lastName, email, accompanyingHeadCount);
 
 		for (let i = NULL_ACCOMPANYING_HEAD_COUNT; i < accompanyingHeadCount; i++) {
-			let guest = new Guest(eventID, 'Accompanying Guest', lastName, email, 0);
+			let guest = new Guest(eventID, 'Accompanying Guest', lastName, email, NULL_ACCOMPANYING_HEAD_COUNT);
 			guests.push(guest);
 		}
 
@@ -50,9 +47,11 @@ export const post = [
 			Event.updateEvent(eventID, accompanyingHeadCount + MAIN_GUEST_INCREMENT);
 		} catch (error) {
 			// database error
-			return res.status(500).send({ message: 'Failed to create booking.', error: error });
+			return res
+				.status(StatusCodes.INTERNAL_SERVER_ERROR)
+				.send({ message: 'Failed to create booking.', error: error });
 		}
 
-		return res.status(201).send({ message: 'Booking created.' });
+		return res.status(StatusCodes.CREATED).send({ message: 'Booking created.' });
 	},
 ];
