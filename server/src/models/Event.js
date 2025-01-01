@@ -59,7 +59,7 @@ export class Event {
 	}
 
 	static async getEventDetails(eventName) {
-		let query = `SELECT * FROM events WHERE name = '${eventName}'`;
+		let query = `SELECT ID, name, headCount FROM events WHERE name = '${eventName}'`;
 		let [event, _] = await db.execute(query);
 
 		return event[0];

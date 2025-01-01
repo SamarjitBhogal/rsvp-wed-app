@@ -12,7 +12,7 @@ export async function accessGuard(req, res, next) {
 	const { accessToken } = req.cookies;
 	const accessCode = verifyJWT(accessToken);
 
-	if (!accessCode) {
+	if (!accessCode || req.eventID != accessCode.ID || req.eventName != accessCode.name) {
 		return res.status(403).send({ message: 'Invalid access. User does not have the required access code for this event.' });
 	}
 

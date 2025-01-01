@@ -12,9 +12,9 @@ const __dirname = path.dirname(__filename); // get the name of the directory
  */
 export const MAX_ACCESS_TIME = process.env.JWT_ACCESS_TIME;
 
-export function signJWT(user) {
+export function signJWT(data) {
 	const accessToken = jwt.sign(
-		{ USER_ID: user.USER_ID, UserName: user.UserName, UserEmail: user.UserEmail },
+		data,
 		process.env.JWT_SECRET,
 		{ expiresIn: MAX_ACCESS_TIME },
 	);
@@ -23,8 +23,8 @@ export function signJWT(user) {
 
 export function verifyJWT(token) {
 	try {
-		const user = jwt.verify(token, process.env.JWT_SECRET);
-		return user;
+		const data = jwt.verify(token, process.env.JWT_SECRET);
+		return data;
 	} catch (error) {
 		return null;
 	}
