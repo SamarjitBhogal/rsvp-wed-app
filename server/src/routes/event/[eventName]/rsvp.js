@@ -1,23 +1,11 @@
-import { Guest } from '../../models/Guest.js';
-import { Event } from '../../models/Event.js';
-import { createGuestsSchema } from '../../config/joi-schemas.js';
+import { Guest } from '../../../models/Guest.js';
+import { Event } from '../../../models/Event.js';
+import { createGuestsSchema } from '../../../config/joi-schemas.js';
 
 const NULL_ACCOMPANYING_HEAD_COUNT = 0;
 const MAIN_GUEST_INCREMENT = 1;
 
-export const get = async (req, res) => {
-	let eventName = req.params.eventName;
-
-	// Confirm if event exists:
-	if (!(await Event.doesEventExist(eventName))) {
-		return res.status(404).send({ message: 'This event does not exist.' });
-	}
-
-	const result = await Event.getEventDetails(eventName);
-
-	return res.status(200).send({ message: 'Event details found.', value: result });
-};
-
+// TODO: need middleware to ensure we have valid JWT session
 export const post = async (req, res) => {
 	// each guest is JOI checked
 	const result = createGuestsSchema.validate(req.body);

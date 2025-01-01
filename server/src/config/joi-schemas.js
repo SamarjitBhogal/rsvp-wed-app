@@ -54,3 +54,13 @@ export const createGuestsSchema = Joi.object({
 			'any.required': 'A head count is required.',
 		}),
 });
+
+export const accessRequestSchema = Joi.object({
+	accessCode: Joi.string()
+		.trim()
+		.required()
+		.messages({
+			'string.base': 'The access code must be of type string.',
+			'any.required': 'An access code is required.',
+		}),
+});

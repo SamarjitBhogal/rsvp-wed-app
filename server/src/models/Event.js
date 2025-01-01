@@ -1,4 +1,5 @@
 import { db } from '../config/database.js';
+import { compareHashedPasswords } from '../utils/bcrypt.js';
 
 export class Event {
 	constructor(pageID, eventName, eventDesc, eventStart, eventEnd) {
@@ -84,5 +85,15 @@ export class Event {
 	static async updateEvent(eventID, headCount) {
 		let query = `UPDATE events SET headCount = headCount + ${headCount} WHERE ID = '${eventID}'`;
 		return await db.execute(query);
+	}
+
+	static async checkEventAccess(eventID, accessCode) {
+		const query = `SELECT accessCode FROM events WHERE ID = ${eventID}`;
+		const [result, _] = await db.execute(query);
+		const codeHash = result[0].accessCode;
+
+		const compareResult = compareHashedPasswords(accessCode, codeHash);
+
+		return compareResult;
 	}
 }
