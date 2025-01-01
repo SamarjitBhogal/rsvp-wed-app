@@ -9,7 +9,7 @@ config();
  * the user is authenticated.
  */
 export async function accessGuard(req, res, next) {
-	const { accessToken } = window.sessionStorage.getItem('accessCode');
+	const { accessToken } = req.cookies;
 	const accessCode = verifyJWT(accessToken);
 
 	if (!accessCode) {
