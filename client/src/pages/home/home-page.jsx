@@ -1,6 +1,32 @@
-import React from 'react';
+import axios from '../../utils/axios.js';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const HomePage = () => {
+	const navigate = useNavigate();
+
+	const handleSearch = async (event) => {
+		event.preventDefault();
+
+		try {
+			const result = await axios.post('http://localhost:3000/event/find-event', {
+				eventName: event.target[0].value,
+			});
+
+			const value = result.data.value;
+
+			if (!value) {
+				toast.error('Could not find the specified event.');
+			} else {
+				toast.success('Event found!');
+				navigate(`/event/${value.name}/access`);
+			}
+		} catch (error) {
+			toast.error('Could not find the specified event.');
+			console.error(error);
+		}
+	};
+
 	return (
 		<>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
@@ -16,7 +42,7 @@ const HomePage = () => {
 				</div>
 
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-					<form action='#' method='POST' className='space-y-6'>
+					<form className='space-y-6' onSubmit={handleSearch}>
 						<div>
 							<label htmlFor='text' className='block text-sm/6 font-medium text-gray-900'>
 								Event name
@@ -43,6 +69,7 @@ const HomePage = () => {
 					</form>
 				</div>
 			</div>
+			<ToastContainer />
 		</>
 	);
 };
