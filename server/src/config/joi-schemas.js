@@ -56,11 +56,15 @@ export const createGuestsSchema = Joi.object({
 });
 
 export const accessRequestSchema = Joi.object({
-	accessCode: Joi.string()
-		.trim()
-		.required()
-		.messages({
-			'string.base': 'The access code must be of type string.',
-			'any.required': 'An access code is required.',
-		}),
+	accessCode: Joi.string().trim().required().messages({
+		'string.base': 'The access code must be of type string.',
+		'any.required': 'An access code is required.',
+	}),
+});
+
+export const eventFinderSchema = Joi.object({
+	eventName: Joi.string().trim().required().messages({
+		'string.base': 'The event name must be of type string.',
+		'any.required': 'An event name code is required.',
+	}),
 });
