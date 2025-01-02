@@ -1,13 +1,7 @@
 import styles from './landing-page.module.css';
-import { useNavigate } from 'react-router-dom';
-
 import SAMPLE_PHOTO from '../../assets/sample1.jpeg';
 
-// const LandingPage = () => {
-// 	return <>LandingPage</>;
-// };
-
-// export default LandingPage;
+// check auth, only auth users can come here.
 
 const LandingPage = () => {
 	return (
