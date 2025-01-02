@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // All links / QR codes will go to this page and make a request (with access code) for auth
 // if success we redirect to disired page and
 
 const AccessPage = () => {
-	const [userId, setUserId] = useState('');
-	const [pass, setPass] = useState('');
-	const navigate = useNavigate();
+	const { eventName, accessCode } = useParams();
 
 	const handleLogin = () => {
 		if (userId === 'user' && pass === 'pass') {
