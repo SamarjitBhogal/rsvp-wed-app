@@ -11,6 +11,7 @@ import HomePage from './pages/home/home-page';
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+	// TODO: need these to check if we have cookie and if auth is valid
 	const grantAccess = () => {
 		setIsAuthenticated(true);
 	};
@@ -19,13 +20,13 @@ const App = () => {
 		setIsAuthenticated(false);
 	};
 
+	console.log('is auth: ' + isAuthenticated);
+	
 	return (
 		<Routes>
 			<Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
 				{/* TODO: Needs to be a path with the event name */}
-				<Route path='/event/:eventName'>
-					{(params) => <LandingPage logout={revokeAccess} eventName={params.eventName} />}
-				</Route>
+				<Route path='/event/:eventName' element={<LandingPage logout={revokeAccess} />} />
 				<Route path='/event/:eventName/rsvp'>
 					{(params) => <RSVP logout={revokeAccess} eventName={params.eventName} />}
 				</Route>
@@ -39,7 +40,7 @@ const App = () => {
 				</Route> */}
 
 			{/* Manual code entering */}
-			<Route path='/event/:eventName/access' element={<AccessPage />} />
+			<Route path='/event/:eventName/access' element={<AccessPage grantAccess={grantAccess} />} />
 			<Route path='/' element={<HomePage />} />
 		</Routes>
 	);

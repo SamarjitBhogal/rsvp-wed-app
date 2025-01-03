@@ -1,14 +1,19 @@
+import { useNavigate, useParams } from 'react-router-dom';
+
 import styles from './landing-page.module.css';
 import SAMPLE_PHOTO from '../../assets/sample1.jpeg';
 
 // check auth, only auth users can come here.
 
 const LandingPage = () => {
+	const { eventName } = useParams();
+	const navigate = useNavigate();
+
 	return (
 		<div className='min-h-screen bg-gray-100 flex flex-col items-center'>
 			{/* Header */}
 			<header className='w-full bg-white shadow-md p-4'>
-				<h1 className='text-2xl md:text-4xl font-bold text-center text-gray-800'>John & Jane's Wedding</h1>
+				<h1 className='text-2xl md:text-4xl font-bold text-center text-gray-800'>{eventName}</h1>
 			</header>
 
 			{/* Body */}

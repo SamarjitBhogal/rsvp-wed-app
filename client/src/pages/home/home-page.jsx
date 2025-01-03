@@ -1,6 +1,6 @@
 import axios from '../../utils/axios.js';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const HomePage = () => {
 	const navigate = useNavigate();
@@ -15,12 +15,8 @@ const HomePage = () => {
 
 			const value = result.data.value;
 
-			if (!value) {
-				toast.error('Could not find the specified event.');
-			} else {
-				toast.success('Event found!');
-				navigate(`/event/${value.name}/access`);
-			}
+			toast.success('Event found!');
+			navigate(`/event/${value.name}/access`);
 		} catch (error) {
 			toast.error('Could not find the specified event.');
 			console.error(error);
@@ -69,7 +65,6 @@ const HomePage = () => {
 					</form>
 				</div>
 			</div>
-			<ToastContainer />
 		</>
 	);
 };

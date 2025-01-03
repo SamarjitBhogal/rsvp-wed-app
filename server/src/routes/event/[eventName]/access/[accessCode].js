@@ -30,5 +30,5 @@ export const get = async (req, res) => {
 		maxAge: MAX_ACCESS_TIME,
 	});
 
-	return res.status(200).send({ message: 'Event RSVP access granted.' });
+	return res.status(200).send({ message: 'Access granted.' });
 };
