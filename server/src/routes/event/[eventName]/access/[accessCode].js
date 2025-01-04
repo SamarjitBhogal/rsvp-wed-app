@@ -30,5 +30,5 @@ export const get = async (req, res) => {
 		maxAge: MAX_ACCESS_TIME,
 	});
 
-	return res.status(200).send({ message: 'Access granted.' });
+	return res.status(200).send({ message: 'Access granted.', value: accessToken });
 };

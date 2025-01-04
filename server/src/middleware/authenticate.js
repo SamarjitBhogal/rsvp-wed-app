@@ -8,6 +8,9 @@ config();
  * Checks for auth and event existence. 
  */
 export async function accessGuard(req, res, next) {
+	
+
+
 	const { accessToken } = req.cookies;
 	const accessCode = verifyJWT(accessToken);
 
