@@ -1,12 +1,14 @@
-import axios from '../utils/axios';
-import { useParams } from 'react-router-dom';
+import { getAuthAxios } from '../utils/axios';
+import { HttpStatusCode } from 'axios';
 
 export async function hasAccess() {
-	const { eventName } = useParams();
+	const authAxios = getAuthAxios();
 
 	try {
-		const response = await axios.get(`http://localhost:3000/event/${eventName}/access/`);
+		const response = await authAxios.get(`event/priyaWedEvent/access`);
+		return response.status === HttpStatusCode.Ok;
 	} catch (error) {
-		return false;
+		console.error(error.response.data.message);
+		return false; // Return false in case of error
 	}
 }

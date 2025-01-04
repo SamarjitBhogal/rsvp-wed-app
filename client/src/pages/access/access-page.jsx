@@ -14,12 +14,12 @@ const AccessPage = (props) => {
 
 		try {
 			const inputAccessCode = event.target[0].value;
-			const result = await axios.get(`http://localhost:3000/event/${eventName}/access/${inputAccessCode}`);
+			const result = await axios.get(`event/${eventName}/access/${inputAccessCode}`);
 
 			sessionStorage.setItem('accessToken', result.data.value);
-
-			toast.success(result.data.message);
 			props.grantAccess();
+			
+			toast.success(result.data.message);
 			navigate(`/event/${eventName}`);
 		} catch (error) {
 			toast.error('Invalid access code / event.');

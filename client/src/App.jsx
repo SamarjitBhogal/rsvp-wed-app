@@ -1,17 +1,29 @@
 // App.js
-import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import ProtectedRoute from './components/protected-route/protected-route';
 import LandingPage from './pages/landing/landing-page';
 import AccessPage from './pages/access/access-page';
 import RSVP from './pages/rsvp/rsvp';
 import HomePage from './pages/home/home-page';
+import { hasAccess } from './utils/authenticate';
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [loading, setLoading] = useState(true);
+	let location = useLocation();
 
-	// TODO: need these to check if we have cookie and if auth is valid
+	useEffect(() => {
+		const handleAccess = async () => {
+			const access = await hasAccess();
+			setIsAuthenticated(access);
+			setLoading(false); // Stop loading
+		};
+
+		handleAccess();
+	}, [location]);
+
 	const grantAccess = () => {
 		setIsAuthenticated(true);
 	};
@@ -20,8 +32,11 @@ const App = () => {
 		setIsAuthenticated(false);
 	};
 
-	console.log('is auth: ' + isAuthenticated);
-	
+	if (loading) {
+		// Optionally render a loading spinner or placeholder while checking authentication
+		return <div>Loading...</div>;
+	  }
+
 	return (
 		<Routes>
 			<Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>

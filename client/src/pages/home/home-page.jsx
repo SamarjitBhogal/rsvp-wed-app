@@ -9,7 +9,7 @@ const HomePage = () => {
 		event.preventDefault();
 
 		try {
-			const result = await axios.post('http://localhost:3000/event/find-event', {
+			const result = await axios.post('event/find-event', {
 				eventName: event.target[0].value,
 			});
 

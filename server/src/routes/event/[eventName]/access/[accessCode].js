@@ -18,9 +18,6 @@ export const get = async (req, res) => {
 		return res.status(400).send({ message: 'Invalid access code / event.' });
 	}
 
-	// JWT it up
-	// this token will be sent in a header when rsvping
-	// TODO: user-end stores token in sessionStorage if it is lost, this is what is intended
 	const accessToken = signJWT(eventResult);
 
 	return res.status(200).send({ message: 'Access granted.', value: accessToken });
