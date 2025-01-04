@@ -5,13 +5,12 @@ import { verifyJWT } from '../utils/jwt.js';
 config();
 
 /**
- * Checks for auth and event existence. 
+ * Checks for auth and event existence.
  */
 export async function accessGuard(req, res, next) {
-	
+	const authHeader = req.headers['authorization'];
+	const accessToken = authHeader && authHeader.split(' ')[1];
 
-
-	const { accessToken } = req.cookies;
 	const accessCode = verifyJWT(accessToken);
 
 	if (!accessCode) {

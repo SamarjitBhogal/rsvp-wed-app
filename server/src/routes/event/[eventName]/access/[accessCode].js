@@ -23,12 +23,5 @@ export const get = async (req, res) => {
 	// TODO: user-end stores token in sessionStorage if it is lost, this is what is intended
 	const accessToken = signJWT(eventResult);
 
-	res.cookie('accessToken', accessToken, {
-		secure: true,
-		httpOnly: true,
-		sameSite: 'strict',
-		maxAge: MAX_ACCESS_TIME,
-	});
-
 	return res.status(200).send({ message: 'Access granted.', value: accessToken });
 };
