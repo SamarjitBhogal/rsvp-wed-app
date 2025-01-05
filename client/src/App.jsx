@@ -8,6 +8,7 @@ import AccessPage from './pages/access/access-page';
 import RSVP from './pages/rsvp/rsvp';
 import HomePage from './pages/home/home-page';
 import { hasAccess } from './utils/authenticate';
+import Page404 from './pages/404/404-page';
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,6 +56,7 @@ const App = () => {
 			{/* Manual code entering */}
 			<Route path='/event/:eventName/access' element={<AccessPage grantAccess={grantAccess} />} />
 			<Route path='/' element={<HomePage />} />
+			<Route path='*' element={<Page404 />} />
 		</Routes>
 	);
 };
