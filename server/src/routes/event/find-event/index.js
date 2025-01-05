@@ -1,5 +1,6 @@
 // find an event
 // return status OK with event details
+// ! marked for removal
 
 import { eventFinderSchema } from '../../../config/joi-schemas.js';
 import { Event } from '../../../models/Event.js';
