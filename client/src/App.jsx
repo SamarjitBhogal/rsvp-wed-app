@@ -35,16 +35,14 @@ const App = () => {
 	if (loading) {
 		// Optionally render a loading spinner or placeholder while checking authentication
 		return <div>Loading...</div>;
-	  }
+	}
 
 	return (
 		<Routes>
 			<Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
 				{/* TODO: Needs to be a path with the event name */}
 				<Route path='/event/:eventName' element={<LandingPage logout={revokeAccess} />} />
-				<Route path='/event/:eventName/rsvp'>
-					{(params) => <RSVP logout={revokeAccess} eventName={params.eventName} />}
-				</Route>
+				<Route path='/event/:eventName/rsvp' element={<RSVP logout={revokeAccess} />} />
 			</Route>
 
 			{/* QR code, this will instantly redirect to rsvp or show error prompt if not valid */}
