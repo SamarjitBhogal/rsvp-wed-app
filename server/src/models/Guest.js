@@ -1,8 +1,8 @@
 import { db } from '../config/database.js';
 
 export class Guest {
-	constructor(eventID, firstName, lastName, email, accompanyingHeadCount) {
-		this.eventID = eventID;
+	constructor(subEventID, firstName, lastName, email, accompanyingHeadCount) {
+		this.subEventID = subEventID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -11,14 +11,14 @@ export class Guest {
 
 	async insertGuest() {
 		let query = `INSERT INTO guests(
-            eventID,
+            subEventID,
             firstName,
 			lastName,
             email,
 			accompanyingHeadCount
         )
         VALUES(
-            '${this.eventID}',
+            '${this.subEventID}',
             '${this.firstName}',
 			'${this.lastName}',
             '${this.email}',

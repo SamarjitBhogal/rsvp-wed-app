@@ -14,6 +14,8 @@ const RSVP = () => {
 
 	// send access token to backend and get related events
 
+	// TODO: at this point access is expected. So check again but get parent event info with subevents
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -22,7 +24,10 @@ const RSVP = () => {
 			const lastName = event.target[1].value;
 			const email = event.target[2].value;
 
-			const result = await axios.get(`event/${inputEventName}/access/${inputAccessCode}`);
+			const result = await axios.post(`event/${eventName}/rsvp`, {
+				// need to send firstName, lastName, email, and subEvents (array) of {name, headCountAccompaning} rsvping for (need at least 1). Parent will updates automatically
+
+			});
 
 			toast.success(result.data.message);
 			navigate(`/event/${inputEventName}`);

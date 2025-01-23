@@ -9,10 +9,6 @@ const MAX_HEAD_COUNT = 10;
 const MIN_HEAD_COUNT = 0;
 
 export const createGuestsSchema = Joi.object({
-	eventID: Joi.number().integer().required().messages({
-		'number.base': 'The eventID must be of type integer.',
-		'any.required': 'An eventID is required.',
-	}),
 	firstName: Joi.string()
 		.trim()
 		.max(NAME_MAXLEN)
@@ -42,16 +38,29 @@ export const createGuestsSchema = Joi.object({
 			'string.max': `Email must be no more than ${EMAIL_MAXLEN} characters long.`,
 			'any.required': 'An email is required.',
 		}),
-	accompanyingHeadCount: Joi.number()
-		.integer()
-		.min(0)
-		.max(MAX_HEAD_COUNT)
-		.required()
+	// accompanyingHeadCount: Joi.number()
+	// 	.integer()
+	// 	.min(0)
+	// 	.max(MAX_HEAD_COUNT)
+	// 	.required()
+	// 	.messages({
+	// 		'number.base': 'The number of individuals must be of type integer.',
+	// 		'number.min': `There cannot be less than ${MIN_HEAD_COUNT} individuals attending.`,
+	// 		'number.max': `There can be no more than ${MAX_HEAD_COUNT} individuals attending.`,
+	// 		'any.required': 'A head count is required.',
+	// 	}),
+	subEvents: Joi.array()
+		.min(1)
+		.max(2)
+		.items(
+			Joi.object({
+				eventName: Joi.string().required(),
+				accompanyingHeadCount: Joi.number().integer().required(),
+			}),
+		)
 		.messages({
-			'number.base': 'The number of individuals must be of type integer.',
-			'number.min': `There cannot be less than ${MIN_HEAD_COUNT} individuals attending.`,
-			'number.max': `There can be no more than ${MAX_HEAD_COUNT} individuals attending.`,
-			'any.required': 'A head count is required.',
+			'number.min': `You must select at least 1 event to RSVP.`,
+			'number.max': `Cannot RSVP for more than the listed events.`,
 		}),
 });
 

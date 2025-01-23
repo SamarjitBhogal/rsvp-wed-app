@@ -4,6 +4,7 @@ import styles from './landing-page.module.css';
 import SAMPLE_PHOTO from '../../assets/sample1.jpeg';
 
 // check auth, only auth users can come here.
+// TODO: at this point access is expected. So check again but get parent event info with subevents
 
 const LandingPage = () => {
 	const { eventName } = useParams();

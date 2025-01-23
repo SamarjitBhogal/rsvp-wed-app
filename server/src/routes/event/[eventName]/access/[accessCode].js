@@ -1,7 +1,7 @@
 // post request for jwt auth session
 
 import { Event } from '../../../../models/Event.js';
-import { signJWT, MAX_ACCESS_TIME } from '../../../../utils/jwt.js';
+import { signJWT } from '../../../../utils/jwt.js';
 
 export const get = async (req, res) => {
 	const accessCode = req.params.accessCode;
