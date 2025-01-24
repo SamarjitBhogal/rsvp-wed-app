@@ -15,10 +15,10 @@ export class SubEvent {
 	}
 
     static async getSubEvents(parentEventID) {
-		let query = `SELECT ID, name, headCount FROM SubEvents WHERE name = '${eventName}'`;
+		let query = `SELECT ID, name, headCount FROM SubEvents WHERE parentEvent = '${parentEventID}'`;
 		let [event, _] = await db.execute(query);
 
-		return event[0];
+		return event;
 	}
 
 	static async doesEventExist(eventName) {

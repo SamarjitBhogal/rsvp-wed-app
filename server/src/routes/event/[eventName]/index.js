@@ -17,13 +17,10 @@ export const get = async (req, res) => {
 	const subEvents = await SubEvent.getSubEvents(parentEventDetails.ID);
 
 	const eventDetails = {
-		parentEventName: parentEventDetails.eventName,
-		parentEventID: parentEventDetails.parentEventID,
+		parentEventName: parentEventDetails.name,
+		parentEventID: parentEventDetails.ID,
 		subEvents: subEvents,
 	};
 
-	console.log(subEvents);
-	// TODO: attach subevents as array
-
-	return res.status(StatusCodes.OK).send({ message: 'Event found.', value: parentEventDetails });
+	return res.status(StatusCodes.OK).send({ message: 'Event found.', value: eventDetails });
 };
