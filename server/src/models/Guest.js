@@ -10,7 +10,7 @@ export class Guest {
 	}
 
 	async insertGuest() {
-		let query = `INSERT INTO guests(
+		let query = `INSERT INTO Guests(
             subEventID,
             firstName,
 			lastName,

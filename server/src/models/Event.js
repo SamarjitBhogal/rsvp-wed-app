@@ -8,7 +8,7 @@ export class Event {
 	}
 
 	static async getEventDetails(eventName) {
-		let query = `SELECT ID, name, headCount FROM events WHERE name = '${eventName}'`;
+		let query = `SELECT ID, name, headCount FROM Events WHERE name = '${eventName}'`;
 		let [event, _] = await db.execute(query);
 		
 		return event[0];
@@ -24,12 +24,12 @@ export class Event {
 	}
 
 	static async updateEvent(eventID, headCount) {
-		let query = `UPDATE events SET headCount = headCount + ${headCount} WHERE ID = '${eventID}'`;
+		let query = `UPDATE Events SET headCount = headCount + ${headCount} WHERE ID = '${eventID}'`;
 		return await db.execute(query);
 	}
 
 	static async checkEventAccess(eventID, accessCode) {
-		const query = `SELECT accessCode FROM events WHERE ID = ${eventID}`;
+		const query = `SELECT accessCode FROM Events WHERE ID = ${eventID}`;
 		const [result, _] = await db.execute(query);
 		const codeHash = result[0].accessCode;
 		const compareResult = compareHashedPasswords(accessCode, codeHash);
