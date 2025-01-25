@@ -54,6 +54,7 @@ export const createGuestsSchema = Joi.object({
 		.max(2)
 		.items(
 			Joi.object({
+				ID: Joi.number().integer().required(),
 				eventName: Joi.string().required(),
 				accompanyingHeadCount: Joi.number().integer().required(),
 			}),
