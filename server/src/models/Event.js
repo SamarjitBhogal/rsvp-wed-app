@@ -15,8 +15,7 @@ export class Event {
 	}
 
 	static async doesEventExist(eventName) {
-		const query = `SELECT name FROM Events 
-            WHERE name = '${eventName}'`;
+		const query = `SELECT name FROM Events WHERE name = '${eventName}'`;
 		let [result, _] = await db.execute(query);
 
 		result = result.length === 0 ? false : result[0].name == eventName;
