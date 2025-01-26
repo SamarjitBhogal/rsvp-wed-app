@@ -3,7 +3,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:3000';
 
-export function getAuthAxios() {
+function getAuthAxios() {
 	const accessToken = sessionStorage.getItem('accessToken');
 
 	return axios.create({
@@ -13,4 +13,5 @@ export function getAuthAxios() {
 	});
 }
 
+export const authAxios = getAuthAxios();
 export default axios;

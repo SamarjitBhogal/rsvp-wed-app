@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { authAxios } from '../../utils/axios.js';
 
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 
@@ -7,14 +9,38 @@ const RSVP = () => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
 
+	const [loading, setLoading] = useState(true); // For loading state
+	const [subEvents, setSubEvents] = useState([]);
+
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
-	const [selectedEvents, setSelectedEvents] = useState([]);
+	// const [selectedEvents, setSelectedEvents] = useState([]);
 
-	// send access token to backend and get related events
+	useEffect(() => {
+		const fetchEventDetails = async () => {
+			try {
+				const result = await authAxios.get(`event/${eventName}`);
+				const eventDetais = result.data.value;
 
-	// TODO: at this point access is expected. So check again but get parent event info with subevents
+				// Add `isSelected` and ensure `headCount` is 0 if not provided
+				const formattedSubEvents = eventDetais.subEvents.map((subEvent) => ({
+					...subEvent,
+					headCount: 0,
+					isSelected: false,
+				}));
+
+				console.log(formattedSubEvents);
+				setSubEvents(formattedSubEvents);
+				setLoading(false);
+			} catch (error) {
+				toast.error('Could not find the specified subEvent.');
+				console.error(error);
+			}
+		};
+
+		fetchEventDetails();
+	}, []);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -23,10 +49,10 @@ const RSVP = () => {
 			const firstName = event.target[0].value;
 			const lastName = event.target[1].value;
 			const email = event.target[2].value;
+			// get sub events filter through which ones are selected. prepare post body. send.
 
 			const result = await axios.post(`event/${eventName}/rsvp`, {
 				// need to send firstName, lastName, email, and subEvents (array) of {name, headCountAccompaning} rsvping for (need at least 1). Parent will updates automatically
-
 			});
 
 			toast.success(result.data.message);
@@ -37,18 +63,15 @@ const RSVP = () => {
 		}
 	};
 
-	const checkBoxHandler = (event) => {
-		let isSelected = event.target.checked;
-		let value = event.target.value;
-
-		console.log(isSelected, value);
-
-		if (isSelected) {
-			setSelectedEvents([...selectedEvents, value]);
-		} else {
-			setSelectedEvents(selectedEvents.filter((event) => event !== value));
-		}
+	const checkBoxHandler = (eventName, updatedData) => {
+		setSubEvents((prevData) =>
+			prevData.map((event) => (event.eventName === eventName ? { ...event, ...updatedData } : event)),
+		);
 	};
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<>
@@ -118,12 +141,17 @@ const RSVP = () => {
 							</div>
 						</div>
 
-						{/* Template for events, need to make more for each function */}
-						<h3 class='block text-sm/6 font-medium text-gray-900'>Functions for this event</h3>
-						<EventCheckBox
-							eventName={'Ladies Party'}
-							isChecked={selectedEvents.includes('Ladies Party')}
-							checkBoxHandler={checkBoxHandler}></EventCheckBox>
+						<h3 className='block text-sm/6 font-medium text-gray-900'>Functions for this event</h3>
+						{subEvents.map((subEvent) => (
+							<div key={subEvent.name}>
+								<EventCheckBox
+									eventName={subEvent.name}
+									headCount={subEvent.headCount}
+									isSelected={subEvent.isSelected}
+									onChange={(updatedData) => checkBoxHandler(subEvent.name, updatedData)}
+								/>
+							</div>
+						))}
 
 						<div>
 							<button
@@ -133,7 +161,7 @@ const RSVP = () => {
 							</button>
 							<button
 								type='button'
-								class='mt-3 flex w-full justify-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+								className='mt-3 flex w-full justify-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
 								onClick={() => navigate(`/event/${eventName}`)}>
 								Cancel
 							</button>

@@ -9,10 +9,10 @@ import App from './App.jsx';
 //TODO: remove react strict mode
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<React.StrictMode>
+	<div>
 		<BrowserRouter>
 			<App />
 		</BrowserRouter>
 		<ToastContainer />
-	</React.StrictMode>,
+	</div>,
 );

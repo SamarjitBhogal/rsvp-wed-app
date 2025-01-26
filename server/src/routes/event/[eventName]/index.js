@@ -5,8 +5,6 @@ import StatusCodes from 'http-status-codes';
 import { SubEvent } from '../../../models/SubEvent.js';
 import { accessGuard } from '../../../middleware/authenticate.js';
 
-// TODO: accessGuard needed
-
 export const get = [
 	accessGuard,
 	async (req, res) => {

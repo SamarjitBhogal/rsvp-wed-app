@@ -28,17 +28,3 @@ export const db = mysql
 		database: process.env.RDS_DB_NAME,
 	})
 	.promise();
-
-// Function to test the connection
-async function testConnection() {
-	try {
-		// Simple query to test the connection
-		const [rows] = await db.execute('SELECT 1 AS result');
-		console.log('Connection successful:', rows);
-	} catch (err) {
-		console.error('Connection failed:', err.message);
-	}
-}
-
-// Run the test
-testConnection();

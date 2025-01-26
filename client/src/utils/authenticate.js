@@ -1,9 +1,7 @@
-import { getAuthAxios } from '../utils/axios';
+import { authAxios } from '../utils/axios';
 import { HttpStatusCode } from 'axios';
 
 export async function hasAccess() {
-	const authAxios = getAuthAxios();
-
 	// Extract event name from the URL
 	const urlSegments = window.location.pathname.split('/');
 	const eventName = urlSegments.includes('event') ? urlSegments[urlSegments.indexOf('event') + 1] : null;
