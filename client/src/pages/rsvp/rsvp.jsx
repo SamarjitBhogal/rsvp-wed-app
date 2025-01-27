@@ -15,7 +15,6 @@ const RSVP = () => {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
-	// const [selectedEvents, setSelectedEvents] = useState([]);
 
 	useEffect(() => {
 		const fetchEventDetails = async () => {
@@ -30,7 +29,6 @@ const RSVP = () => {
 					isSelected: false,
 				}));
 
-				console.log(formattedSubEvents);
 				setSubEvents(formattedSubEvents);
 				setLoading(false);
 			} catch (error) {
@@ -49,23 +47,30 @@ const RSVP = () => {
 			const firstName = event.target[0].value;
 			const lastName = event.target[1].value;
 			const email = event.target[2].value;
+			const formattedSubEvents = subEvents
+				.filter((subEvent) => subEvent.headCount !== 0)
+				.map(({ isSelected, ...rest }) => rest);
+			console.log('After: ', formattedSubEvents);
 			// get sub events filter through which ones are selected. prepare post body. send.
 
-			const result = await axios.post(`event/${eventName}/rsvp`, {
-				// need to send firstName, lastName, email, and subEvents (array) of {name, headCountAccompaning} rsvping for (need at least 1). Parent will updates automatically
+			const result = await authAxios.post(`event/${eventName}/rsvp`, {
+				firstName: firstName,
+				lastName: lastName,
+				email: email,
+				subEvents: formattedSubEvents,
 			});
 
 			toast.success(result.data.message);
-			navigate(`/event/${inputEventName}`);
+			navigate(`/event/${eventName}`);
 		} catch (error) {
 			toast.error(error.data.message);
 			console.error(error);
 		}
 	};
 
-	const checkBoxHandler = (eventName, updatedData) => {
+	const checkBoxHandler = (name, updatedData) => {
 		setSubEvents((prevData) =>
-			prevData.map((event) => (event.eventName === eventName ? { ...event, ...updatedData } : event)),
+			prevData.map((event) => (event.name === name ? { ...event, ...updatedData } : event)),
 		);
 	};
 
@@ -96,6 +101,7 @@ const RSVP = () => {
 									autoComplete='given-name'
 									required
 									className='block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
+									value={firstName}
 									onChange={(event) => setFirstName(event.target.value)}
 								/>
 							</div>
@@ -113,6 +119,7 @@ const RSVP = () => {
 									autoComplete='family-name'
 									required
 									className='block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
+									value={lastName}
 									onChange={(event) => {
 										setLastName(event.target.value);
 									}}
@@ -134,6 +141,7 @@ const RSVP = () => {
 									autoComplete='email'
 									required
 									className='block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
+									value={email}
 									onChange={(event) => {
 										setEmail(event.target.value);
 									}}
@@ -143,14 +151,13 @@ const RSVP = () => {
 
 						<h3 className='block text-sm/6 font-medium text-gray-900'>Functions for this event</h3>
 						{subEvents.map((subEvent) => (
-							<div key={subEvent.name}>
-								<EventCheckBox
-									eventName={subEvent.name}
-									headCount={subEvent.headCount}
-									isSelected={subEvent.isSelected}
-									onChange={(updatedData) => checkBoxHandler(subEvent.name, updatedData)}
-								/>
-							</div>
+							<EventCheckBox
+								key={subEvent.name}
+								eventName={subEvent.name}
+								headCount={subEvent.headCount}
+								isSelected={subEvent.isSelected}
+								onChange={(updatedData) => checkBoxHandler(subEvent.name, updatedData)}
+							/>
 						))}
 
 						<div>

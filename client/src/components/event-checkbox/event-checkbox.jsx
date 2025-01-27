@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
-	const [inputHeadCount, setInputHeadCount] = useState(0);
 	const [selected, setSelected] = useState(isSelected);
 
 	const handleCheckBoxChange = () => {
@@ -13,6 +12,18 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 	const handleHeadCountChange = (e) => {
 		const updatedHeadCount = parseInt(e.target.value, 10) || 0; // Ensure it's a number or default to 0
 		onChange({ headCount: updatedHeadCount });
+	};
+
+	const handleIncrement = () => {
+		if (headCount < 10) {
+			onChange({ headCount: headCount + 1 });
+		}
+	};
+
+	const handleDecrement = () => {
+		if (headCount > 0) {
+			onChange({ headCount: headCount - 1 });
+		}
 	};
 
 	return (
@@ -46,9 +57,7 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 							id='decreaseButton'
 							className='absolute right-9 top-1 rounded bg-slate-800 p-1.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
 							type='button'
-							onClick={() => {
-								inputHeadCount == 0 ? setInputHeadCount(0) : setInputHeadCount(inputHeadCount - 1);
-							}}>
+							onClick={handleDecrement}>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								viewBox='0 0 16 16'
@@ -71,7 +80,7 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 							type='number'
 							min={0}
 							max={10}
-							value={inputHeadCount}
+							value={headCount}
 							className='w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm outline outline-1 -outline-offset-1 outline-gray-300 rounded-md pl-10 pr-20 py-2 transition duration-300 ease focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 shadow-sm focus:shadow appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
 							onChange={handleHeadCountChange}
 						/>
@@ -79,9 +88,7 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 							id='increaseButton'
 							className='absolute right-1 top-1 rounded bg-slate-800 p-1.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
 							type='button'
-							onClick={() => {
-								inputHeadCount == 10 ? setInputHeadCount(10) : setInputHeadCount(inputHeadCount + 1);
-							}}>
+							onClick={handleIncrement}>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								viewBox='0 0 16 16'

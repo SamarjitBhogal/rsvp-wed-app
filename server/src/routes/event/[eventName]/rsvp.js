@@ -22,17 +22,17 @@ export const post = [
 		const { firstName, lastName, email, subEvents } = req.body;
 		const eventID = req.eventID;
 
-		let maxAccompanyingHeadCount = subEvents[0].accompanyingHeadCount;
+		let maxAccompanyingHeadCount = subEvents[0].headCount;
 		let bookedEvents = 0;
 
 		for (let i = 0; i < subEvents.length; i++) {
-			const subEvent = await SubEvent.getSubEventDetails(subEvents[i].eventName);
+			const subEvent = await SubEvent.getSubEventDetails(subEvents[i].name);
 			let guests = [];
-			let mainGuest = new Guest(subEvent.ID, firstName, lastName, email, subEvents[i].accompanyingHeadCount);
+			let mainGuest = new Guest(subEvent.ID, firstName, lastName, email, subEvents[i].headCount);
 
 			if (await Guest.doesGuestExist(mainGuest, subEvent.ID)) continue;
 
-			const headCount = subEvents[i].accompanyingHeadCount;
+			const headCount = subEvents[i].headCount;
 
 			for (let j = NULL_ACCOMPANYING_HEAD_COUNT; j < headCount; j++) {
 				let guest = new Guest(subEvent.ID, 'Accompanying Guest', lastName, email, NULL_ACCOMPANYING_HEAD_COUNT);
@@ -45,7 +45,6 @@ export const post = [
 
 				// update headcount of event
 				const updateAmount = headCount + MAIN_GUEST_INCREMENT;
-				console.log(updateAmount);
 				SubEvent.updateEvent(subEvent.ID, updateAmount);
 				if (headCount > maxAccompanyingHeadCount) {
 					maxAccompanyingHeadCount = headCount;

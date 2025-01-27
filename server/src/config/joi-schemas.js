@@ -38,25 +38,14 @@ export const createGuestsSchema = Joi.object({
 			'string.max': `Email must be no more than ${EMAIL_MAXLEN} characters long.`,
 			'any.required': 'An email is required.',
 		}),
-	// accompanyingHeadCount: Joi.number()
-	// 	.integer()
-	// 	.min(0)
-	// 	.max(MAX_HEAD_COUNT)
-	// 	.required()
-	// 	.messages({
-	// 		'number.base': 'The number of individuals must be of type integer.',
-	// 		'number.min': `There cannot be less than ${MIN_HEAD_COUNT} individuals attending.`,
-	// 		'number.max': `There can be no more than ${MAX_HEAD_COUNT} individuals attending.`,
-	// 		'any.required': 'A head count is required.',
-	// 	}),
 	subEvents: Joi.array()
 		.min(1)
 		.max(2)
 		.items(
 			Joi.object({
 				ID: Joi.number().integer().required(),
-				eventName: Joi.string().required(),
-				accompanyingHeadCount: Joi.number().integer().required(),
+				name: Joi.string().required(),
+				headCount: Joi.number().integer().min(MIN_HEAD_COUNT).max(MAX_HEAD_COUNT).required(),
 			}),
 		)
 		.messages({
