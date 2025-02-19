@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { authAxios } from '../../utils/axios.js';
+import { sendMail } from '../../utils/sendMail.jsx';
 
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 
@@ -32,13 +33,13 @@ const RSVP = () => {
 				setSubEvents(formattedSubEvents);
 				setLoading(false);
 			} catch (error) {
-				toast.error('Could not find the specified subEvent.');
+				toast.error('Could not find the specified subevents.');
 				console.error(error);
 			}
 		};
 
 		fetchEventDetails();
-	}, []);
+	}, [eventName]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -50,8 +51,6 @@ const RSVP = () => {
 			const formattedSubEvents = subEvents
 				.filter((subEvent) => subEvent.headCount !== 0)
 				.map(({ isSelected, ...rest }) => rest);
-			console.log('After: ', formattedSubEvents);
-			// get sub events filter through which ones are selected. prepare post body. send.
 
 			const result = await authAxios.post(`event/${eventName}/rsvp`, {
 				firstName: firstName,
@@ -61,6 +60,11 @@ const RSVP = () => {
 			});
 
 			toast.success(result.data.message);
+
+			// Send email
+			sendMail(eventName, email, firstName, lastName);
+
+			// TODO: add a delay to this
 			navigate(`/event/${eventName}`);
 		} catch (error) {
 			toast.error(error.data.message);

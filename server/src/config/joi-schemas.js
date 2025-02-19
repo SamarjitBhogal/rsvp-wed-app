@@ -49,8 +49,8 @@ export const createGuestsSchema = Joi.object({
 			}),
 		)
 		.messages({
-			'number.min': `You must select at least 1 event to RSVP.`,
-			'number.max': `Cannot RSVP for more than the listed events.`,
+			'number.min': "You must select at least 1 event to RSVP.",
+			'number.max': "Cannot RSVP for more than the listed events.",
 		}),
 });
 
@@ -65,5 +65,17 @@ export const eventFinderSchema = Joi.object({
 	eventName: Joi.string().trim().required().messages({
 		'string.base': 'The event name must be of type string.',
 		'any.required': 'An event name code is required.',
+	}),
+});
+
+export const sendMailSchema = Joi.object({
+	email: Joi.string().email().trim().required().messages({
+		'string.base': 'Email must be of type string.',
+		'string.email': 'The string is not a valid email.',
+		'any.required': 'An email is required.',
+	}),
+	html: Joi.string().required().messages({
+		'string.base': 'HTML must be of type string.',
+		'any.required': 'An HTML string is required.',
 	}),
 });

@@ -27,21 +27,23 @@ export const post = [
 
 		for (let i = 0; i < subEvents.length; i++) {
 			const subEvent = await SubEvent.getSubEventDetails(subEvents[i].name);
-			let guests = [];
-			let mainGuest = new Guest(subEvent.ID, firstName, lastName, email, subEvents[i].headCount);
+			const guests = [];
+			const mainGuest = new Guest(subEvent.ID, firstName, lastName, email, subEvents[i].headCount);
 
 			if (await Guest.doesGuestExist(mainGuest, subEvent.ID)) continue;
 
 			const headCount = subEvents[i].headCount;
 
 			for (let j = NULL_ACCOMPANYING_HEAD_COUNT; j < headCount; j++) {
-				let guest = new Guest(subEvent.ID, 'Accompanying Guest', lastName, email, NULL_ACCOMPANYING_HEAD_COUNT);
+				const guest = new Guest(subEvent.ID, 'Accompanying Guest', lastName, email, NULL_ACCOMPANYING_HEAD_COUNT);
 				guests.push(guest);
 			}
 
 			try {
 				await mainGuest.insertGuest();
-				guests.forEach(async (guest) => await guest.insertGuest());
+				for (const guest of guests) {
+					await guest.insertGuest();
+				}
 
 				// update headcount of event
 				const updateAmount = headCount + MAIN_GUEST_INCREMENT;
