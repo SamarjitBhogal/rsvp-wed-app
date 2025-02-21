@@ -3,19 +3,22 @@ import { authAxios } from './axios';
 import { toast } from 'react-toastify';
 import { renderToString } from 'react-dom/server';
 
-function getHTML(eventName, firstName, lastName) {
-	const htmlAsString = renderToString(<EmailConfirmation eventName={eventName} />);
+function getHTML(subEventName, firstName, lastName) {
+	const htmlAsString = renderToString(
+		<EmailConfirmation eventName={subEventName} firstName={firstName} lastName={lastName} />,
+	);
 	return htmlAsString;
 }
 
-export async function sendMail(eventName, email, firstName, lastName) {
-	const html = getHTML(eventName, firstName, lastName);
+export async function sendMail(subEvents, eventName, email, firstName, lastName) {
+	for (const subEvent of subEvents) {
+		const html = getHTML(subEvent.name, firstName, lastName);
 
-	try {
-		const result = await authAxios.post(`/event/${eventName}/sendMail`, { email, html });
-		toast.info('An email has been sent for your RSVP.');
-	} catch (error) {
-		console.error(error);
-		toast.error('An error occurred while sending the email. Please try again.');
+		try {
+			await authAxios.post(`/event/${eventName}/sendMail`, { email, html });
+		} catch (error) {
+			console.error(error);
+			toast.error('An error occurred while sending the email. Please try again.');
+		}
 	}
 }
