@@ -1,29 +1,43 @@
 import axios from '../../utils/axios.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useEffect, useCallback } from 'react';
 
 const HomePage = (props) => {
 	const navigate = useNavigate();
+	const { eventName, accessCode } = useParams();
+
+	const getAccess = useCallback(
+		async (eventName, accessCode) => {
+			try {
+				const result = await axios.get(`event/${eventName}/access/${accessCode}`);
+
+				sessionStorage.setItem('accessToken', result.data.value);
+				props.grantAccess();
+
+				toast.success(result.data.message);
+				navigate(`/event/${eventName}`);
+			} catch (error) {
+				toast.error('Could not find the specified event.');
+				navigate('/');
+				console.error(error);
+			}
+		},
+		[props, navigate],
+	);
+
+	useEffect(() => {
+		if (eventName && accessCode) {
+			getAccess(eventName, accessCode);
+		}
+	}, [eventName, accessCode, getAccess]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		const inputEventName = event.target[0].value;
+		const inputAccessCode = event.target[1].value;
 
-		try {
-			const inputEventName = event.target[0].value;
-			const inputAccessCode = event.target[1].value;
-
-			const result = await axios.get(`event/${inputEventName}/access/${inputAccessCode}`);
-			const accessToken = result.data.value;
-
-			sessionStorage.setItem('accessToken', accessToken);
-			props.grantAccess();
-
-			toast.success(result.data.message);
-			navigate(`/event/${inputEventName}`);
-		} catch (error) {
-			toast.error('Could not find the specified event.');
-			console.error(error);
-		}
+		getAccess(inputEventName, inputAccessCode);
 	};
 
 	return (
