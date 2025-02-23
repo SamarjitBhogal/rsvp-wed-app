@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useEffect, useCallback } from 'react';
 
+import { hasAccess } from '../../utils/authenticate';
+
 const HomePage = (props) => {
 	const navigate = useNavigate();
 	const { eventName, accessCode } = useParams();
@@ -13,6 +15,7 @@ const HomePage = (props) => {
 				const result = await axios.get(`event/${eventName}/access/${accessCode}`);
 
 				sessionStorage.setItem('accessToken', result.data.value);
+				sessionStorage.setItem('eventName', eventName);
 				props.grantAccess();
 
 				toast.success(result.data.message);
@@ -30,7 +33,16 @@ const HomePage = (props) => {
 		if (eventName && accessCode) {
 			getAccess(eventName, accessCode);
 		}
-	}, [eventName, accessCode, getAccess]);
+
+		const handleAccess = async () => {
+			const access = await hasAccess();
+			if (access) {
+				navigate(`/event/${sessionStorage.getItem('eventName')}`);
+			}
+		};
+
+		handleAccess();
+	}, [eventName, accessCode, getAccess, navigate]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();

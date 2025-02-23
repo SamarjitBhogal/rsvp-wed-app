@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import LandingPage from './pages/landing/landing-page';
 import RSVP from './pages/rsvp/rsvp';
@@ -30,6 +30,7 @@ const App = () => {
 
 	const revokeAccess = () => {
 		setIsAuthenticated(false);
+		// TODO: destroy session storage
 	};
 
 	return (

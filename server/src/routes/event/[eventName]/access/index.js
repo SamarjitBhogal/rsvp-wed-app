@@ -8,10 +8,9 @@ export const get = [
 	(req, res) => {
 		if (req.eventName && req.eventID) {
 			return res.status(StatusCodes.OK).send({ message: 'Access is valid.' });
-		} else {
-			return res
-				.status(StatusCodes.UNAUTHORIZED)
-				.send({ message: 'You do not have access to RSVP for this event.' });
 		}
+		return res
+			.status(StatusCodes.UNAUTHORIZED)
+			.send({ message: 'You do not have access to RSVP for this event.' });
 	},
 ];

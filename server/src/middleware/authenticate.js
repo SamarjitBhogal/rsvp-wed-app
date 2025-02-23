@@ -8,8 +8,8 @@ config();
  * Checks for auth and event existence.
  */
 export async function accessGuard(req, res, next) {
-	const authHeader = req.headers['authorization'];
-	const accessToken = authHeader && authHeader.split(' ')[1];
+	const authHeader = req.headers.authorization;
+	const accessToken = authHeader?.split(' ')[1];
 
 	const accessCode = verifyJWT(accessToken);
 
@@ -28,7 +28,7 @@ export async function accessGuard(req, res, next) {
 
 	const eventResult = await Event.getEventDetails(eventName);
 
-	if (eventResult.ID != accessCode.ID || eventResult.name != accessCode.name) {
+	if (eventResult.ID !== accessCode.ID || eventResult.name !== accessCode.name) {
 		return res
 			.status(403)
 			.send({ message: 'Invalid access. User does not have the required access code for this event.' });

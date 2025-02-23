@@ -2,6 +2,13 @@ import { authAxios } from '../utils/axios';
 import { HttpStatusCode } from 'axios';
 
 export async function hasAccess() {
+	const storedEventName = sessionStorage.getItem('eventName');
+
+	if (storedEventName) {
+		const result = await checkAccess(storedEventName);
+		return result;
+	}
+
 	// Extract event name from the URL
 	const urlSegments = window.location.pathname.split('/');
 	const eventName = urlSegments.includes('event') ? urlSegments[urlSegments.indexOf('event') + 1] : null;
@@ -10,6 +17,11 @@ export async function hasAccess() {
 		return false;
 	}
 
+	const result = await checkAccess(eventName);
+	return result;
+}
+
+const checkAccess = async (eventName) => {
 	try {
 		const response = await authAxios.get(`event/${eventName}/access`);
 		return response.status === HttpStatusCode.Ok;
