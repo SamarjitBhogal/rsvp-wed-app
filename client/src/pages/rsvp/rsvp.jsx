@@ -152,7 +152,12 @@ const RSVP = () => {
 							</div>
 						</div>
 
-						<h3 className='block text-sm/6 font-medium text-gray-900'>Functions for this event</h3>
+						<div>
+							<h3 className='block font-small text-gray-900'>
+								You have been invited to the following functions:
+							</h3>
+							<p className='mt-2 text-sm/6 text-gray-600'>Please select which of the following you would like to attend</p>
+						</div>
 						{subEvents.map((subEvent) => (
 							<EventCheckBox
 								key={subEvent.name}
