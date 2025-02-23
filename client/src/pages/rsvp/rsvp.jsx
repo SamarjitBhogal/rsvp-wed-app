@@ -86,7 +86,7 @@ const RSVP = () => {
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 					<h2 className='mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900'>
-						RSVP for {eventName}
+						RSVP for Priya & Hameet
 					</h2>
 				</div>
 
@@ -153,7 +153,7 @@ const RSVP = () => {
 						</div>
 
 						<div>
-							<h3 className='block font-small text-gray-900'>
+							<h3 className='block font-medium text-black-900'>
 								You have been invited to the following functions:
 							</h3>
 							<p className='mt-2 text-sm/6 text-gray-600'>Please select which of the following you would like to attend</p>
