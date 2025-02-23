@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import LandingPage from './pages/landing/landing-page';
-import AccessPage from './pages/access/access-page';
 import RSVP from './pages/rsvp/rsvp';
 import HomePage from './pages/home/home-page';
 import Page404 from './pages/404/404-page';
 
 import ProtectedRoute from './components/protected-route/protected-route';
-import { hasAccess } from './utils/authenticate';
 import Loader from './components/loader/loader';
+
+import { hasAccess } from './utils/authenticate';
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -18,7 +18,6 @@ const App = () => {
 		const handleAccess = async () => {
 			const access = await hasAccess();
 			setIsAuthenticated(access);
-			console.log('is authenticated:', access);
 		};
 
 		setIsAuthenticated(null);
@@ -42,10 +41,7 @@ const App = () => {
 					<Route path='/event/:eventName/rsvp' element={<RSVP logout={revokeAccess} />} />
 				</Route>
 
-				{/* QR code, this will instantly redirect to rsvp or show error prompt if not valid */}
-				{/* <Route path='/event/:eventName/access/:accessCode' element={<AccessPage grantAccess={grantAccess} />} /> */}
-
-				{/* Homepage and Manual code entering */}
+				{/* Homepage and Manual code entering + QR code */}
 				<Route path='/' element={<HomePage grantAccess={grantAccess} />} />
 				<Route path='/event/:eventName/access/:accessCode' element={<HomePage grantAccess={grantAccess} />} />
 				<Route path='*' element={<Page404 />} />

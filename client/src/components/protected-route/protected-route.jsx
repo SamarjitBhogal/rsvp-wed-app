@@ -2,8 +2,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Loader from '../loader/loader';
 
 const ProtectedRoute = ({ isAuthenticated }) => {
-	console.log(isAuthenticated);
-
 	if (isAuthenticated === null) {
 		return <Loader />;
 	}
