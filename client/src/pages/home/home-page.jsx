@@ -5,6 +5,8 @@ import { useEffect, useCallback } from 'react';
 
 import { hasAccess } from '../../utils/authenticate';
 
+import CAKE_ICON from '../../assets/wedding-cake.svg';
+
 const HomePage = (props) => {
 	const navigate = useNavigate();
 	const { eventName, accessCode } = useParams();
@@ -56,14 +58,14 @@ const HomePage = (props) => {
 		<>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-					<img
-						alt='Your Company'
-						src='https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600'
-						className='mx-auto h-10 w-auto'
-					/>
-					<h2 className='mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900'>
-						RSVP For An Event
-					</h2>
+					<img alt='Your Company' src={CAKE_ICON} className='mx-auto h-60 w-auto' />
+					<div className='text-center'>
+						<h2 className='mt-10 text-2xl/9 font-bold tracking-tight text-gray-900'>RSVP for an Event</h2>
+						<p className='mt-2 text-sm/6 text-gray-600'>
+							To RSVP for an event please fill in the followin with the event keyword and access code
+							provided with your invitation
+						</p>
+					</div>
 				</div>
 
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
@@ -76,7 +78,7 @@ const HomePage = (props) => {
 									type='text'
 									required
 									autoComplete='text'
-									placeholder='Event Name'
+									placeholder='Event Keyword'
 									className='block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
 								/>
 							</div>

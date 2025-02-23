@@ -31,6 +31,7 @@ const App = () => {
 	const revokeAccess = () => {
 		setIsAuthenticated(false);
 		// TODO: destroy session storage
+		
 	};
 
 	return (

@@ -63,9 +63,7 @@ const RSVP = () => {
 
 			// Send email
 			await sendMail(formattedSubEvents, eventName, email, firstName, lastName);
-			toast.info('An email has been sent for your RSVP.');
-
-			// TODO: add a delay to this
+			toast.info('An email has been sent for your RSVP(s).');
 			navigate(`/event/${eventName}`);
 		} catch (error) {
 			toast.error(error.data.message);
