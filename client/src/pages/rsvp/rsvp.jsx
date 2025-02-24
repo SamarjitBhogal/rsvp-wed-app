@@ -11,9 +11,7 @@ const RSVP = () => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
 
-	const [loading, setLoading] = useState(true); // For loading state
 	const [subEvents, setSubEvents] = useState([]);
-
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
@@ -32,7 +30,6 @@ const RSVP = () => {
 				}));
 
 				setSubEvents(formattedSubEvents);
-				setLoading(false);
 			} catch (error) {
 				toast.error('Could not find the specified subevents.');
 				console.error(error);
@@ -77,10 +74,6 @@ const RSVP = () => {
 			prevData.map((event) => (event.name === name ? { ...event, ...updatedData } : event)),
 		);
 	};
-
-	if (loading) {
-		return <div>Loading...</div>;
-	}
 
 	return (
 		<>

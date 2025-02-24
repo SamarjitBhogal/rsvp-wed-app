@@ -14,12 +14,6 @@ const HomePage = (props) => {
 	const getAccess = useCallback(
 		async (eventName, accessCode) => {
 			try {
-				// const result = await axios.get(`event/${eventName}/access/${accessCode}`);
-
-				// sessionStorage.setItem('accessToken', result.data.value);
-				// sessionStorage.setItem('eventName', eventName);
-				// props.grantAccess();
-
 				const response = await toast.promise(axios.get(`event/${eventName}/access/${accessCode}`), {
 					pending: 'Checking access...',
 					success: 'Access granted!',
@@ -30,12 +24,10 @@ const HomePage = (props) => {
 				sessionStorage.setItem('eventName', eventName);
 				props.grantAccess();
 
-				// toast.success(result.data.message);
 				navigate(`/event/${eventName}`);
 			} catch (error) {
-				toast.error('Could not find the specified event.');
-				navigate('/');
 				console.error(error);
+				navigate('/');
 			}
 		},
 		[props, navigate],
