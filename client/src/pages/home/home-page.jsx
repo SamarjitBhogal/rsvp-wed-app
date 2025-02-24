@@ -14,13 +14,23 @@ const HomePage = (props) => {
 	const getAccess = useCallback(
 		async (eventName, accessCode) => {
 			try {
-				const result = await axios.get(`event/${eventName}/access/${accessCode}`);
+				// const result = await axios.get(`event/${eventName}/access/${accessCode}`);
 
-				sessionStorage.setItem('accessToken', result.data.value);
+				// sessionStorage.setItem('accessToken', result.data.value);
+				// sessionStorage.setItem('eventName', eventName);
+				// props.grantAccess();
+
+				const response = await toast.promise(axios.get(`event/${eventName}/access/${accessCode}`), {
+					pending: 'Checking access...',
+					success: 'Access granted!',
+					error: 'Could not find the specified event.',
+				});
+
+				sessionStorage.setItem('accessToken', response.data.value);
 				sessionStorage.setItem('eventName', eventName);
 				props.grantAccess();
 
-				toast.success(result.data.message);
+				// toast.success(result.data.message);
 				navigate(`/event/${eventName}`);
 			} catch (error) {
 				toast.error('Could not find the specified event.');
@@ -58,17 +68,20 @@ const HomePage = (props) => {
 		<>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
+					<h1 className='text-center mt-10 text-4xl font-bold tracking-tight text-gray-900'>
+						Priya weds Hameet
+					</h1>
 					<img alt='Your Company' src={CAKE_ICON} className='mx-auto h-60 w-auto' />
 					<div className='text-center'>
-						<h2 className='mt-10 text-2xl/9 font-bold tracking-tight text-gray-900'>RSVP for an Event</h2>
+						<h2 className='mt-10 text-2xl/9 font-bold tracking-tight text-gray-900'>RSVP Now</h2>
 						<p className='mt-2 text-sm/6 text-gray-600'>
-							To RSVP for an event please fill in the followin with the event keyword and access code
+							To RSVP for this event please fill in the following with the event keyword and access code
 							provided with your invitation
 						</p>
 					</div>
 				</div>
 
-				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
+				<div className='mt-2 sm:mx-auto sm:w-full sm:max-w-sm'>
 					<form className='space-y-6' onSubmit={handleSubmit}>
 						<div>
 							<div className='mt-2'>

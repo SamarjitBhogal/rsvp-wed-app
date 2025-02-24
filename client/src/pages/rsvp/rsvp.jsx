@@ -6,6 +6,7 @@ import { sendMail } from '../../utils/sendMail.jsx';
 
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 
+// TODO: FIX "Counld not find events error"
 const RSVP = () => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
@@ -156,7 +157,9 @@ const RSVP = () => {
 							<h3 className='block font-medium text-black-900'>
 								You have been invited to the following functions:
 							</h3>
-							<p className='mt-2 text-sm/6 text-gray-600'>Please select which of the following you would like to attend</p>
+							<p className='mt-2 text-sm/6 text-gray-600'>
+								Please select which of the following you would like to attend
+							</p>
 						</div>
 						{subEvents.map((subEvent) => (
 							<EventCheckBox

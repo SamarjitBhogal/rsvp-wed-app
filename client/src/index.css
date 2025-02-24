@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--color-primary: #e396a8;
+	--color-secondary: #a20036;
+}
+
+button[type="submit"] {
+	background-color: var(--color-primary);
+	color: white;
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	background-color: var(--color-secondary);
+}
