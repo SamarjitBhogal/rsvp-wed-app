@@ -6,7 +6,7 @@ import { sendMail } from '../../utils/sendMail.jsx';
 
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 
-// TODO: FIX "Counld not find events error"
+// TODO: FIX "Counld not find events error". Just put a loader on the subevents part and render everything else.
 const RSVP = () => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
