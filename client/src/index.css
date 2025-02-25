@@ -7,7 +7,8 @@
 	--color-secondary: #a20036;
 }
 
-button[type="submit"] {
+button[type="submit"],
+.primaryBtn {
 	background-color: var(--color-primary);
 	color: white;
 	border: none;
@@ -16,6 +17,11 @@ button[type="submit"] {
 	cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+.primaryBtn:hover {
 	background-color: var(--color-secondary);
+}
+
+.input:focus {
+	outline-color: #a20036 !important;
 }

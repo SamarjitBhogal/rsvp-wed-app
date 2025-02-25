@@ -24,7 +24,7 @@ const LandingPage = () => {
 
 				<button
 					type='button'
-					className='bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mb-6'
+					className='primaryBtn text-white font-semibold py-2 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mb-6'
 					onClick={() => navigate(`/event/${eventName}/rsvp`)}>
 					RSVP Now
 				</button>

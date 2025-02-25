@@ -1,0 +1,4 @@
+.spinner {
+	border-color: var(--color-primary) var(--color-primary) var(--color-primary)
+		transparent;
+}
