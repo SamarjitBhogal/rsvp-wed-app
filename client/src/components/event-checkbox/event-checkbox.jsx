@@ -42,7 +42,7 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 					/>
 					<label
 						className='cursor-pointer ml-2 text-sm/6 font-medium text-gray-900'
-						htmlFor='check-vertical-list-group'>
+						htmlFor={`${eventName}-checkbox`}>
 						{eventName}
 					</label>
 				</div>

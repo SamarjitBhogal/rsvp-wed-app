@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { authAxios } from '../../utils/axios.js';
+import axios from '../../utils/axios.js';
 import { sendMail } from '../../utils/sendMail.jsx';
 
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
@@ -19,7 +19,7 @@ const RSVP = () => {
 	useEffect(() => {
 		const fetchEventDetails = async () => {
 			try {
-				const result = await authAxios.get(`event/${eventName}`);
+				const result = await axios.get(`event/${eventName}`);
 				const eventDetais = result.data.value;
 
 				// Add `isSelected` and ensure `headCount` is 0 if not provided

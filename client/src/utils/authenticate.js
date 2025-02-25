@@ -1,4 +1,4 @@
-import { authAxios } from '../utils/axios';
+import axios from '../utils/axios';
 import { HttpStatusCode } from 'axios';
 
 export async function hasAccess() {
@@ -23,7 +23,7 @@ export async function hasAccess() {
 
 const checkAccess = async (eventName) => {
 	try {
-		const response = await authAxios.get(`event/${eventName}/access`);
+		const response = await axios.get(`event/${eventName}/access`);
 		return response.status === HttpStatusCode.Ok;
 	} catch (error) {
 		console.error(error.response.data.message);

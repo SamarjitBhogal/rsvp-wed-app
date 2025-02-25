@@ -1,5 +1,5 @@
 import EmailConfirmation from '../components/email-confirmation/email-confirmation';
-import { authAxios } from './axios';
+import axios from './axios';
 import { toast } from 'react-toastify';
 import { renderToString } from 'react-dom/server';
 
@@ -15,7 +15,7 @@ export async function sendMail(subEvents, eventName, email, firstName, lastName)
 		const html = getHTML(subEvent.name, firstName, lastName);
 
 		try {
-			await authAxios.post(`/event/${eventName}/sendMail`, { email, html });
+			await axios.post(`/event/${eventName}/sendMail`, { email, html });
 		} catch (error) {
 			console.error(error);
 			toast.error('An error occurred while sending the email. Please try again.');
