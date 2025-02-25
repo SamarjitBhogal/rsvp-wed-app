@@ -5,6 +5,7 @@ import axios from '../../utils/axios.js';
 import { sendMail } from '../../utils/sendMail.jsx';
 
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
+import Loader from '../../components/loader/loading-basic.jsx';
 
 // TODO: FIX "Counld not find events error". Just put a loader on the subevents part and render everything else.
 const RSVP = () => {
@@ -15,6 +16,7 @@ const RSVP = () => {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchEventDetails = async () => {
@@ -29,15 +31,21 @@ const RSVP = () => {
 					isSelected: false,
 				}));
 
+				setLoading(false);
 				setSubEvents(formattedSubEvents);
 			} catch (error) {
-				toast.error('Could not find the specified subevents.');
-				console.error(error);
+				toast.error("You don't have access to RSVP for this event.");
+				console.error(error.response.data.message);
+
+				if (error.response.status === 403) {
+					navigate('/');
+				}
 			}
 		};
 
+		setLoading(true);
 		fetchEventDetails();
-	}, [eventName]);
+	}, [eventName, navigate]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -50,7 +58,7 @@ const RSVP = () => {
 				.filter((subEvent) => subEvent.headCount !== 0)
 				.map(({ isSelected, ...rest }) => rest);
 
-			const result = await authAxios.post(`event/${eventName}/rsvp`, {
+			const result = await axios.post(`event/${eventName}/rsvp`, {
 				firstName: firstName,
 				lastName: lastName,
 				email: email,
@@ -154,15 +162,19 @@ const RSVP = () => {
 								Please select which of the following you would like to attend
 							</p>
 						</div>
-						{subEvents.map((subEvent) => (
-							<EventCheckBox
-								key={subEvent.name}
-								eventName={subEvent.name}
-								headCount={subEvent.headCount}
-								isSelected={subEvent.isSelected}
-								onChange={(updatedData) => checkBoxHandler(subEvent.name, updatedData)}
-							/>
-						))}
+						{loading ? (
+							<Loader />
+						) : (
+							subEvents.map((subEvent) => (
+								<EventCheckBox
+									key={subEvent.name}
+									eventName={subEvent.name}
+									headCount={subEvent.headCount}
+									isSelected={subEvent.isSelected}
+									onChange={(updatedData) => checkBoxHandler(subEvent.name, updatedData)}
+								/>
+							))
+						)}
 
 						<div>
 							<button

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import styles from './loader.module.css';
 
-const Loader = () => {
+const LoaderFull = () => {
 	const location = useLocation();
 	const [loading, setLoading] = useState(false);
 
@@ -26,4 +26,4 @@ const Loader = () => {
 	) : null;
 };
 
-export default Loader;
+export default LoaderFull;

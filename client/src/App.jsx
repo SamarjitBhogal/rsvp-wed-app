@@ -7,7 +7,7 @@ import HomePage from './pages/home/home-page';
 import Page404 from './pages/404/404-page';
 
 import ProtectedRoute from './components/protected-route/protected-route';
-import Loader from './components/loader/loader';
+import LoaderFull from './components/loader/loader-full';
 
 import { hasAccess } from './utils/authenticate';
 
@@ -36,7 +36,7 @@ const App = () => {
 
 	return (
 		<>
-			<Loader />
+			<LoaderFull />
 			<Routes>
 				<Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
 					<Route path='/event/:eventName' element={<LandingPage logout={revokeAccess} />} />

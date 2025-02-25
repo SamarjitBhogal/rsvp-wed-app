@@ -8,8 +8,8 @@ export class Event {
 	}
 
 	static async getEventDetails(eventName) {
-		let query = `SELECT ID, name, headCount FROM Events WHERE name = '${eventName}'`;
-		let [event, _] = await db.execute(query);
+		const query = `SELECT ID, name, headCount FROM Events WHERE name = '${eventName}'`;
+		const [event, _] = await db.execute(query);
 		
 		return event[0];
 	}
@@ -18,12 +18,12 @@ export class Event {
 		const query = `SELECT name FROM Events WHERE name = '${eventName}'`;
 		let [result, _] = await db.execute(query);
 
-		result = result.length === 0 ? false : result[0].name == eventName;
+		result = result.length === 0 ? false : result[0].name === eventName;
 		return result;
 	}
 
 	static async updateEvent(eventID, headCount) {
-		let query = `UPDATE Events SET headCount = headCount + ${headCount} WHERE ID = '${eventID}'`;
+		const query = `UPDATE Events SET headCount = headCount + ${headCount} WHERE ID = '${eventID}'`;
 		return await db.execute(query);
 	}
 

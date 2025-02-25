@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import Loader from '../loader/loader';
+import LoaderFull from '../loader/loader-full';
 
 const ProtectedRoute = ({ isAuthenticated }) => {
 	if (isAuthenticated === null) {
-		return <Loader />;
+		return <LoaderFull />;
 	}
 
 	return isAuthenticated ? <Outlet /> : <Navigate to='/' />;
