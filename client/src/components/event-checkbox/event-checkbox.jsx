@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
+const EventCheckBox = ({ name, eventName, headCount, isSelected, onChange }) => {
 	const [selected, setSelected] = useState(isSelected);
 
 	const handleCheckBoxChange = () => {
@@ -50,12 +50,12 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 
 			{selected && (
 				<div className='mx-auto'>
-					<label htmlFor='inputHeadCount' className='block text-sm/6 font-medium text-gray-900'>
+					<label htmlFor={`inputHeadCount-${name}`} className='block text-sm/6 font-medium text-gray-900'>
 						How many people are you bringing?
 					</label>
 					<div className='relative'>
 						<button
-							id='decreaseButton'
+							id={`decreaseButton-${name}`}
 							className='absolute right-9 top-1 rounded bg-slate-800 p-1.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
 							type='button'
 							onClick={handleDecrement}>
@@ -79,7 +79,7 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 						</svg>
 
 						<input
-							id='inputHeadCount'
+							id={`inputHeadCount-${name}`}
 							type='number'
 							min={0}
 							max={10}
@@ -88,7 +88,7 @@ const EventCheckBox = ({ eventName, headCount, isSelected, onChange }) => {
 							onChange={handleHeadCountChange}
 						/>
 						<button
-							id='increaseButton'
+							id={`increaseButton-${name}`}
 							className='absolute right-1 top-1 rounded bg-slate-800 p-1.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
 							type='button'
 							onClick={handleIncrement}>

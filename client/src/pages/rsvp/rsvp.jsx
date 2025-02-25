@@ -7,7 +7,6 @@ import { sendMail } from '../../utils/sendMail.jsx';
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 import Loader from '../../components/loader/loading-basic.jsx';
 
-// TODO: FIX "Counld not find events error". Just put a loader on the subevents part and render everything else.
 const RSVP = () => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
@@ -69,11 +68,11 @@ const RSVP = () => {
 
 			// Send email
 			await sendMail(formattedSubEvents, eventName, email, firstName, lastName);
-			toast.info('An email has been sent for your RSVP(s).');
+			toast('📨 An email has been sent for your RSVP(s).');
 			navigate(`/event/${eventName}`);
 		} catch (error) {
-			toast.error(error.data.message);
-			console.error(error);
+			toast.error('Invalid access. Please enter your access code again.');
+			console.error(error.response.data.message);
 		}
 	};
 
@@ -168,6 +167,7 @@ const RSVP = () => {
 							subEvents.map((subEvent) => (
 								<EventCheckBox
 									key={subEvent.name}
+									name={subEvent.name}
 									eventName={subEvent.name}
 									headCount={subEvent.headCount}
 									isSelected={subEvent.isSelected}

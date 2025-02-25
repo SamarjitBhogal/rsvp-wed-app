@@ -5,6 +5,7 @@
 :root {
 	--color-primary: #e396a8;
 	--color-secondary: #a20036;
+	--toastify-color-progress-light: var(--toastify-color-info);
 }
 
 button[type="submit"],
