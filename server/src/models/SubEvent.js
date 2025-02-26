@@ -8,15 +8,15 @@ export class SubEvent {
 	}
 
 	static async getSubEventDetails(eventName) {
-		let query = `SELECT ID, name, headCount FROM SubEvents WHERE name = '${eventName}'`;
-		let [event, _] = await db.execute(query);
+		const query = `SELECT ID, name, headCount FROM SubEvents WHERE name = '${eventName}'`;
+		const [event, _] = await db.execute(query);
 
 		return event[0];
 	}
 
 	static async getSubEvents(parentEventID) {
-		let query = `SELECT ID, name, headCount FROM SubEvents WHERE parentEvent = '${parentEventID}'`;
-		let [event, _] = await db.execute(query);
+		const query = `SELECT ID, name, headCount FROM SubEvents WHERE parentEvent = '${parentEventID}'`;
+		const [event, _] = await db.execute(query);
 
 		return event;
 	}
@@ -25,12 +25,12 @@ export class SubEvent {
 		const query = `SELECT name FROM SubEvents WHERE name = '${eventName}'`;
 		let [result, _] = await db.execute(query);
 
-		result = result.length === 0 ? false : result[0].name == eventName;
+		result = result.length === 0 ? false : result[0].name === eventName;
 		return result;
 	}
 
 	static async updateEvent(subEventID, headCount) {
-		let query = `UPDATE SubEvents SET headCount = headCount + ${headCount} WHERE ID = ${subEventID}`;
+		const query = `UPDATE SubEvents SET headCount = headCount + ${headCount} WHERE ID = ${subEventID}`;
 		return await db.execute(query);
 	}
 }

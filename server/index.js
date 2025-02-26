@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import createRouter from 'express-file-routing';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';

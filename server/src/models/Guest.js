@@ -10,7 +10,7 @@ export class Guest {
 	}
 
 	async insertGuest() {
-		let query = `INSERT INTO Guests(
+		const query = `INSERT INTO Guests(
             subEventID,
             firstName,
 			lastName,
@@ -29,9 +29,9 @@ export class Guest {
 	}
 
 	static async doesGuestExist(guest, subEventID) {
-		let query = `SELECT subEventID, firstName, email FROM Guests 
+		const query = `SELECT subEventID, firstName, email FROM Guests 
             WHERE firstName = '${guest.firstName}' AND lastName = '${guest.lastName}' AND email = '${guest.email}' AND subEventID = ${subEventID}`;
-		let [result, _] = await db.execute(query);
+		const [result, _] = await db.execute(query);
 
 		return result.length > 0;
 	}
