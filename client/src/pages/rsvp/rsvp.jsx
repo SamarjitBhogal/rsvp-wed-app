@@ -7,7 +7,7 @@ import { sendMail } from '../../utils/sendMail.jsx';
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 import Loader from '../../components/loader/loading-basic.jsx';
 
-const RSVP = () => {
+const RSVP = ({ logout }) => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
 
@@ -37,14 +37,14 @@ const RSVP = () => {
 				console.error(error.response.data.message);
 
 				if (error.response.status === 403) {
-					navigate('/');
+					logout();
 				}
 			}
 		};
 
 		setLoading(true);
 		fetchEventDetails();
-	}, [eventName, navigate]);
+	}, [eventName, logout]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -74,6 +74,8 @@ const RSVP = () => {
 			toast.error('Invalid access. Please enter your access code again.');
 			console.error(error.response.data.message);
 		}
+
+		logout();
 	};
 
 	const checkBoxHandler = (name, updatedData) => {

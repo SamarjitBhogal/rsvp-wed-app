@@ -30,8 +30,9 @@ const App = () => {
 
 	const revokeAccess = () => {
 		setIsAuthenticated(false);
-		// TODO: destroy session storage
-		
+		sessionStorage.removeItem('accessToken');
+		sessionStorage.removeItem('eventName');
+		navigate('/');
 	};
 
 	return (
@@ -39,7 +40,7 @@ const App = () => {
 			<LoaderFull />
 			<Routes>
 				<Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-					<Route path='/event/:eventName' element={<LandingPage logout={revokeAccess} />} />
+					<Route path='/event/:eventName' element={<LandingPage />} />
 					<Route path='/event/:eventName/rsvp' element={<RSVP logout={revokeAccess} />} />
 				</Route>
 
