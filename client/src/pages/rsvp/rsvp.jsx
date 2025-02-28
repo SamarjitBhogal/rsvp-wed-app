@@ -7,6 +7,8 @@ import { sendMail } from '../../utils/sendMail.jsx';
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 import Loader from '../../components/loader/loading-basic.jsx';
 
+// TODO: need to and a loader to give feedback that the RSVP is being sent. The page just freezes
+
 const RSVP = ({ logout }) => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
