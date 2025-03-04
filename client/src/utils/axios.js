@@ -1,9 +1,7 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const baseURL = window.location.hostname === 'localhost'
-    ? 'http://localhost:3000/api'
-    : 'https://your-production-url.com/api';
-
+const baseURL = '/api';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = baseURL;
 
@@ -13,6 +11,7 @@ axios.interceptors.request.use(
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
+        config.headers['Content-Type'] = 'application/json';
         return config;
     },
     (error) => {
@@ -26,7 +25,8 @@ axios.interceptors.response.use(
     },
     (error) => {
         if (error.response.status === 401) {
-            console.error('Unauthorized access - redirecting to login');
+            toast.error('Unauthorized event access. Please enter your access code.');
+            console.error('Unauthorized access - redirecting to login...');
             sessionStorage.removeItem('accessToken');
             window.location.href = '/login';
         }
