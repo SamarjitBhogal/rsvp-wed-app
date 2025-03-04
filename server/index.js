@@ -18,8 +18,13 @@ config({ path: path.resolve(__dirname, '../.env') });  // Explicitly specify the
 const PORT = process.env.PORT;
 
 const corsOptions = {
-	origin: process.env.NODE_MODE === 'production' ? 'https://your-app.onrender.com' : process.env.VITE_APP_DEV_URL,
-	credentials: true,
+	origin: (origin, callback) => {
+		if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.onrender.com')) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	}, credentials: true,
 	methods: ['GET', 'POST'],
 };
 
