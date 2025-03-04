@@ -1,5 +1,5 @@
 {
-  "name": "monorepo",
+  "name": "rsvp-wed-app",
   "private": true,
   "version": "1.0.0",
   "scripts": {
@@ -7,7 +7,7 @@
 
     "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
     
-    "build": "npm run build --prefix client",
+    "build": "npm run install:all && npm run build --prefix client",
     
     "start": "npm run start --prefix server",
 
