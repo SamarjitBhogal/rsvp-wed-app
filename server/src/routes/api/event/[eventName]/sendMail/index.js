@@ -1,6 +1,6 @@
-import { sendMailSchema } from "../../../../config/joi-schemas.js";
-import { sendEventMail } from "../../../../utils/sendEventMail.js";
-import { accessGuard } from "../../../../middleware/authenticate.js";
+import { sendMailSchema } from "../../../../../config/joi-schemas.js";
+import { sendEventMail } from "../../../../../utils/sendEventMail.js";
+import { accessGuard } from "../../../../../middleware/authenticate.js";
 import StatusCodes from 'http-status-codes';
 
 export const post = [

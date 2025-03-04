@@ -1,6 +1,6 @@
 // get to check if user has access
 
-import { accessGuard } from '../../../../middleware/authenticate.js';
+import { accessGuard } from '../../../../../middleware/authenticate.js';
 import StatusCodes from 'http-status-codes';
 
 export const get = [

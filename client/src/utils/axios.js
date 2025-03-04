@@ -1,8 +1,12 @@
 import axios from 'axios';
 
+const baseURL = window.location.hostname === 'localhost'
+    ? 'http://localhost:3000/api'
+    : 'https://your-production-url.com/api';
+
 axios.defaults.withCredentials = true;
-// axios.defaults.baseURL = process.env.BASE_URL || 'http://localhost:3000';
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = baseURL;
+
 axios.interceptors.request.use(
     (config) => {
         const accessToken = sessionStorage.getItem('accessToken');

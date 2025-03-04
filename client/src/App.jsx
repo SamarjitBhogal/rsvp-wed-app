@@ -13,6 +13,7 @@ import { hasAccess } from './utils/authenticate';
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const handleAccess = async () => {

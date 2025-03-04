@@ -1,9 +1,9 @@
-import { Guest } from '../../../models/Guest.js';
-import { Event } from '../../../models/Event.js';
-import { createGuestsSchema } from '../../../config/joi-schemas.js';
-import { accessGuard } from '../../../middleware/authenticate.js';
+import { Guest } from '../../../../models/Guest.js';
+import { Event } from '../../../../models/Event.js';
+import { createGuestsSchema } from '../../../../config/joi-schemas.js';
+import { accessGuard } from '../../../../middleware/authenticate.js';
+import { SubEvent } from '../../../../models/SubEvent.js';
 import StatusCodes from 'http-status-codes';
-import { SubEvent } from '../../../models/SubEvent.js';
 
 const NULL_ACCOMPANYING_HEAD_COUNT = 0;
 const MAIN_GUEST_INCREMENT = 1;

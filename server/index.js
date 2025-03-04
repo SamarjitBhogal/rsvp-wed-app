@@ -7,18 +7,20 @@ import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import StatusCodes from 'http-status-codes';
 
-config();
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
 const SERVER_SRC = path.join(__dirname, 'src');
 
+config({ path: path.resolve(__dirname, '../.env') });  // Explicitly specify the path to the .env file
+
 const PORT = process.env.PORT;
 
 const corsOptions = {
-	origin: 'http://localhost:5173', // TODO: ENV
+	origin: process.env.NODE_MODE === 'production' ? 'https://your-app.onrender.com' : process.env.VITE_APP_DEV_URL,
 	credentials: true,
+	methods: ['GET', 'POST'],
 };
 
 app.use(cors(corsOptions));
@@ -29,7 +31,7 @@ app.use(cookieParser());
 await createRouter(app, { directory: path.join(SERVER_SRC, 'routes') }); // as wrapper function
 
 // Serve frontend only in production
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_MODE === "production") {
 	app.use(express.static(path.join(__dirname, "../client/dist")));
 
 	app.all("*", (req, res, next) => {
@@ -48,6 +50,12 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 	});
 }
+
+app.use((req, res, next) => {
+	res.status(StatusCodes.NOT_FOUND).send({
+		error: 'Not Found',
+	});
+});
 
 app.listen(PORT, () => {
 	console.log(`App listening on port: ${PORT}`);

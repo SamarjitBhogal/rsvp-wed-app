@@ -1,9 +1,9 @@
 // gives event details
 
-import { Event } from '../../../models/Event.js';
+import { Event } from '../../../../models/Event.js';
 import StatusCodes from 'http-status-codes';
-import { SubEvent } from '../../../models/SubEvent.js';
-import { accessGuard } from '../../../middleware/authenticate.js';
+import { SubEvent } from '../../../../models/SubEvent.js';
+import { accessGuard } from '../../../../middleware/authenticate.js';
 
 export const get = [
 	accessGuard,
