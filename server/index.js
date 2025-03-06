@@ -18,14 +18,10 @@ config({ path: path.resolve(__dirname, '../.env') });  // Explicitly specify the
 const PORT = process.env.PORT;
 
 const corsOptions = {
-	origin: (origin, callback) => {
-		if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.onrender.com')) {
-			callback(null, true);
-		} else {
-			callback(new Error('Not allowed by CORS'));
-		}
-	}, credentials: true,
+	origin: process.env.NODE_MODE === "production" ? process.env.NODE_PROD_URL : process.env.NODE_DEV_URL,
 	methods: ['GET', 'POST'],
+	allowedHeaders: ["Content-Type", "Authorization"],
+	credentials: true,
 };
 
 app.use(cors(corsOptions));
