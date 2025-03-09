@@ -23,6 +23,10 @@ button[type="submit"]:hover,
 	background-color: var(--color-secondary);
 }
 
+input[type='text'], input[type='email'] {
+	min-height: 50px;
+}
+
 .input:focus {
 	outline-color: #a20036 !important;
 }

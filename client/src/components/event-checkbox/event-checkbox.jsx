@@ -1,7 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const EventCheckBox = ({ name, eventName, headCount, isSelected, onChange }) => {
-	console.log('eventName:', eventName);
+	const [timeDetails, setTimeDetails] = useState('');
+
+	useEffect(() => {
+		const handleTimeDetails = () => {
+			if (eventName.toLowerCase().includes('wedding')) {
+				setTimeDetails('August 2nd @ 11:00 AM');
+			} else {
+				setTimeDetails('July 31st @ 6:30 PM');
+			}
+		};
+
+		handleTimeDetails();
+	}, [eventName]);
+
 	const [selected, setSelected] = useState(isSelected);
 
 	const handleCheckBoxChange = () => {
@@ -32,7 +45,7 @@ const EventCheckBox = ({ name, eventName, headCount, isSelected, onChange }) => 
 			<button
 				type='button'
 				onClick={handleCheckBoxChange}
-				className='flex w-full items-center rounded-lg p-4 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 ml-2'>
+				className='flex justify-between w-full items-center rounded-lg p-4 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 ml-2'>
 				<div className='inline-flex items-center'>
 					<input
 						type='checkbox'
@@ -47,7 +60,7 @@ const EventCheckBox = ({ name, eventName, headCount, isSelected, onChange }) => 
 						{eventName}
 					</label>
 				</div>
-				<div className='ml-10'>July 31st @ 6:30pm</div>
+				<div className='ml-3'>{timeDetails}</div>
 			</button>
 
 			{selected && (
