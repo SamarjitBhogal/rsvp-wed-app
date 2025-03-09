@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './landing-page.module.css';
-import SAMPLE_PHOTO from '../../assets/sample1.jpeg';
+import SAMPLE_PHOTO from '../../assets/engagement.jpg';
 
 const LandingPage = () => {
 	const { eventName } = useParams();
@@ -9,10 +9,6 @@ const LandingPage = () => {
 
 	return (
 		<div className='min-h-screen bg-gray-100 flex flex-col items-center'>
-			<header className='w-full bg-white shadow-md p-4'>
-				<h1 className='text-2xl md:text-4xl font-bold text-center text-gray-800'>Priya & Hameet</h1>
-			</header>
-
 			<main className='flex-grow w-full max-w-4xl p-6 md:p-12 flex flex-col items-center'>
 				<div className='w-full flex justify-center mb-6'>
 					<img
@@ -31,12 +27,29 @@ const LandingPage = () => {
 
 				<div className='text-center text-gray-700'>
 					<p className='text-lg mb-2'>Join us in celebrating our special day!</p>
-					<p className='text-md'>
-						<strong>Date:</strong> June 15, 2024
-					</p>
-					<p className='text-md'>
-						<strong>Location:</strong> Willow Creek Estate, Springfield
-					</p>
+					<div className='relative flex flex-col rounded-xl bg-white outline outline-1 outline-gray-300 pr-4 py-4'>
+						<h1 className='text-2xl md:text-4xl font-bold text-center'>Ladies Sangeet</h1>
+						<p className='mt-2 text-md'>
+							<strong>Date:</strong> Thursday, July 31, 2025
+							<br />
+							<strong>Time:</strong> 6:30 PM
+						</p>
+					</div>
+					<div className='mt-5 relative flex flex-col rounded-xl bg-white outline outline-1 outline-gray-300 pr-4 py-4'>
+						<h1 className='text-2xl md:text-4xl font-bold text-center'>Wedding Ceremony</h1>
+						<p className='mt-2 text-md text-left'>
+							<strong>Date:</strong> Saturday, August 02, 2025
+							<br />
+							<strong>Times:</strong>
+							<p className='pl-4'>
+								Reception of Barat: 9:00 AM
+								<br />
+								Anand Karaj: 11:00 AM
+								<br />
+								Lunch: 12:30 PM
+							</p>
+						</p>
+					</div>
 				</div>
 			</main>
 

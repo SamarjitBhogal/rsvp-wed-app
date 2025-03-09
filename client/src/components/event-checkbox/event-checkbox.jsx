@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 const EventCheckBox = ({ name, eventName, headCount, isSelected, onChange }) => {
+	console.log('eventName:', eventName);
 	const [selected, setSelected] = useState(isSelected);
 
 	const handleCheckBoxChange = () => {
@@ -46,6 +47,7 @@ const EventCheckBox = ({ name, eventName, headCount, isSelected, onChange }) => 
 						{eventName}
 					</label>
 				</div>
+				<div className='ml-10'>July 31st @ 6:30pm</div>
 			</button>
 
 			{selected && (

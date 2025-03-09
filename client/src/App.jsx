@@ -10,6 +10,7 @@ import ProtectedRoute from './components/protected-route/protected-route';
 import LoaderFull from './components/loader/loader-full';
 
 import { hasAccess } from './utils/authenticate';
+import Header from './components/header/header';
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(null);

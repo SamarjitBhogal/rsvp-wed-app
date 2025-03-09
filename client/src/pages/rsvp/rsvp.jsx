@@ -7,8 +7,6 @@ import { sendMail } from '../../utils/sendMail.jsx';
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 import Loader from '../../components/loader/loading-basic.jsx';
 
-// TODO: need to and a loader to give feedback that the RSVP is being sent. The page just freezes
-
 const RSVP = ({ logout }) => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
@@ -18,6 +16,7 @@ const RSVP = ({ logout }) => {
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [loading, setLoading] = useState(true);
+	const [isSendingRSVP, setSendingRSVP] = useState(false);
 
 	useEffect(() => {
 		const fetchEventDetails = async () => {
@@ -50,6 +49,7 @@ const RSVP = ({ logout }) => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		setSendingRSVP(true);
 
 		try {
 			const firstName = event.target[0].value;
@@ -77,6 +77,7 @@ const RSVP = ({ logout }) => {
 			console.error(error.response.data.message);
 		}
 
+		setSendingRSVP(false);
 		logout();
 	};
 
@@ -89,11 +90,7 @@ const RSVP = ({ logout }) => {
 	return (
 		<>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
-				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-					<h2 className='mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900'>
-						RSVP for Priya & Hameet
-					</h2>
-				</div>
+				<h2 className='text-center text-2xl/9 font-bold tracking-tight text-gray-900'>RSVP Below:</h2>
 
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
 					<form className='space-y-6' onSubmit={handleSubmit}>
@@ -162,7 +159,7 @@ const RSVP = ({ logout }) => {
 								You have been invited to the following functions:
 							</h3>
 							<p className='mt-2 text-sm/6 text-gray-600'>
-								Please select which of the following you would like to attend
+								Please select which of the following you would like to attend.
 							</p>
 						</div>
 						{loading ? (
@@ -181,11 +178,15 @@ const RSVP = ({ logout }) => {
 						)}
 
 						<div>
-							<button
-								type='submit'
-								className='flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
-								RSVP
-							</button>
+							{isSendingRSVP ? (
+								<Loader />
+							) : (
+								<button
+									type='submit'
+									className='flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
+									RSVP
+								</button>
+							)}
 							<button
 								type='button'
 								className='mt-3 flex w-full justify-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'

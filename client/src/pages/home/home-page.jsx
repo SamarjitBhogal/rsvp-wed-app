@@ -14,11 +14,17 @@ const HomePage = (props) => {
 	const getAccess = useCallback(
 		async (eventName, accessCode) => {
 			try {
-				const response = await toast.promise(axios.get(`event/${eventName}/access/${accessCode}`), {
-					pending: 'Checking access...',
-					success: 'Access granted!',
-					error: 'Could not find the specified event.',
-				});
+				const response = await toast.promise(
+					axios.get(`event/${eventName}/access/${accessCode}`),
+					{
+						pending: 'Checking access...',
+						success: 'Access granted!',
+						error: 'Could not find the specified event.',
+					},
+					{
+						autoClose: 1000,
+					},
+				);
 
 				sessionStorage.setItem('accessToken', response.data.value);
 				sessionStorage.setItem('eventName', eventName);
@@ -68,7 +74,7 @@ const HomePage = (props) => {
 						<h2 className='mt-10 text-2xl/9 font-bold tracking-tight text-gray-900'>RSVP Now</h2>
 						<p className='mt-2 text-sm/6 text-gray-600'>
 							To RSVP for this event please fill in the following with the event keyword and access code
-							provided with your invitation
+							provided with your invitation.
 						</p>
 					</div>
 				</div>
