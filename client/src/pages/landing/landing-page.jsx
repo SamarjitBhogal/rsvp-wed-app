@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './landing-page.module.css';
-import SAMPLE_PHOTO from '../../assets/engagement.jpg';
+import ENGAGEMENT_PHOTO from '../../assets/engagement.jpg';
 
 const LandingPage = () => {
 	const { eventName } = useParams();
@@ -11,11 +11,7 @@ const LandingPage = () => {
 		<div className='min-h-screen bg-gray-100 flex flex-col items-center'>
 			<main className='flex-grow w-full max-w-4xl p-6 md:p-12 flex flex-col items-center'>
 				<div className='w-full flex justify-center mb-6'>
-					<img
-						src={SAMPLE_PHOTO} // TODO: Replace with actual wedding photo
-						alt='John & Jane'
-						className='rounded-lg shadow-md w-full max-w-md'
-					/>
+					<img src={ENGAGEMENT_PHOTO} alt='John & Jane' className='rounded-lg shadow-md w-full max-w-md' />
 				</div>
 
 				<button
