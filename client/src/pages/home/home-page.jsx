@@ -39,10 +39,14 @@ const HomePage = (props) => {
 		[props, navigate],
 	);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Avoids excessive re-renders
 	useEffect(() => {
-		if (eventName && accessCode) {
-			getAccess(eventName, accessCode);
-		}
+		const handleQrAccess = async () => {
+			if (eventName && accessCode) {
+				console.log('called use effect with get access');
+				await getAccess(eventName, accessCode);
+			}
+		};
 
 		const handleAccess = async () => {
 			const access = await hasAccess();
@@ -51,15 +55,16 @@ const HomePage = (props) => {
 			}
 		};
 
+		handleQrAccess();
 		handleAccess();
-	}, [eventName, accessCode, getAccess, navigate]);
+	}, [eventName, accessCode]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const inputEventName = event.target[0].value;
 		const inputAccessCode = event.target[1].value;
 
-		getAccess(inputEventName, inputAccessCode);
+		await getAccess(inputEventName, inputAccessCode);
 	};
 
 	return (

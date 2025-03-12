@@ -29,16 +29,16 @@ const LandingPage = () => {
 					<p className='text-lg mb-2'>We want you to join us for the following events:</p>
 					<div className='relative flex flex-col rounded-xl bg-white outline outline-1 outline-gray-300 pr-4 pl-4  py-4'>
 						<h1 className='text-2xl md:text-4xl font-bold text-center'>Ladies Sangeet</h1>
-						<p className='mt-2 text-md'>
+						<div className='mt-2 text-md'>
 							<h3 className='my-2 text-xl md:text-2xl font-bold text-center'>Date:</h3> Thursday, July 31,
 							2025
 							<br />
-							<h3 className='my-2 text-xl md:text-2xl font-bold text-center'>Time:</h3> 6:30 PM
-						</p>
+							<h3 className='my-2 text-xl md:text-2xl font-bold text-center'>Time:</h3> 6:30 divM
+						</div>
 					</div>
 					<div className='mt-5 relative flex flex-col rounded-xl bg-white outline outline-1 outline-gray-300 pr-4 pl-4 py-4'>
 						<h1 className='text-2xl md:text-4xl font-bold text-center'>Wedding Ceremony</h1>
-						<p className='mt-2 text-md'>
+						<div className='mt-2 text-md'>
 							<h3 className='my-2 text-xl md:text-2xl font-bold text-center'>Date:</h3> Saturday, August
 							02, 2025
 							<br />
@@ -46,7 +46,7 @@ const LandingPage = () => {
 							<p>Reception of Barat: 9:00 AM</p>
 							<p>Anand Karaj: 11:00 AM</p>
 							<p>Lunch: 12:30 PM</p>
-						</p>
+						</div>
 					</div>
 				</div>
 			</main>

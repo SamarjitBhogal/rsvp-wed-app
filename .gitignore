@@ -29,3 +29,7 @@
 **/*.env
 **/*.env.production
 **/*.pem
+
+# Particular files
+qrgen.js
+qr_code.png
