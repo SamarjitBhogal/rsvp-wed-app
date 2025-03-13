@@ -2,7 +2,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './landing-page.module.css';
 import ENGAGEMENT_PHOTO from '../../assets/engagement.jpg';
+import { sendMail } from '../../utils/sendMail.js';
 
+// TODO: envs or event details api
 const LandingPage = () => {
 	const { eventName } = useParams();
 	const navigate = useNavigate();
@@ -19,6 +21,13 @@ const LandingPage = () => {
 					className='primaryBtn text-white font-semibold py-2 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mb-6'
 					onClick={() => navigate(`/event/${eventName}/rsvp`)}>
 					RSVP Now
+				</button>
+
+				<button
+					type='button'
+					className='primaryBtn text-white font-semibold py-2 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mb-6'
+					onClick={() => sendMail()}>
+					send mail
 				</button>
 
 				<div className='text-center text-gray-700'>

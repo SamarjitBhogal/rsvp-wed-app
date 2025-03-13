@@ -8,7 +8,7 @@ const EventCheckBox = ({ name, eventName, headCount, isSelected, onChange }) => 
 			if (eventName.toLowerCase().includes('wedding')) {
 				setTimeDetails('August 2nd @ 11:00 AM');
 			} else {
-				setTimeDetails('July 31st @ 6:30 PM');
+				setTimeDetails('July 31st @ 6:30 PM'); //TODO:env
 			}
 		};
 

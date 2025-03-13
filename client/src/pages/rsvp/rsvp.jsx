@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from '../../utils/axios.js';
-import { sendMail } from '../../utils/sendMail.jsx';
+import { sendMail } from '../../utils/sendMail.js';
 
 import EventCheckBox from '../../components/event-checkbox/event-checkbox.jsx';
 import Loader from '../../components/loader/loading-basic.jsx';
