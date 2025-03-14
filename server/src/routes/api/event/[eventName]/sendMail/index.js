@@ -1,8 +1,8 @@
 import StatusCodes from "http-status-codes";
 import { sendMailSchema } from "../../../../../config/joi-schemas.js";
-import { sendEventMail } from "../../../../../utils/sendEventMail.js";
+import { sendEventMail } from "../../../../../services/sendEventMail.js";
 import { accessGuard } from "../../../../../middleware/authenticate.js";
-import { getEmailTemplate } from "../../../../../utils/emailTemplate.js";
+import { getEmailTemplate, getAttachments } from "../../../../../utils/email.js";
 
 export const post = [
 	accessGuard,
@@ -18,9 +18,10 @@ export const post = [
 
 		const { email, firstName, lastName, subEventName } = req.body;
 		const html = getEmailTemplate(subEventName, firstName, lastName);
+		const attachments = getAttachments(subEventName);
 
 		try {
-			await sendEventMail(email, html, subEventName);
+			await sendEventMail(email, html, subEventName, attachments);
 			return res
 				.status(StatusCodes.OK)
 				.send({ message: "An email has been sent for your RSVP." });

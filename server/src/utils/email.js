@@ -41,3 +41,26 @@ export const getEmailTemplate = (subEventName, firstName, lastName) => {
 
 	return htmlContent;
 };
+
+export const getAttachments = (subEventName) => {
+	let filePath = "";
+
+	if (subEventName.toLowerCase().includes("wedding")) {
+		filePath = path.join(__dirname, "..", "..", "assets", "email", "wip.html");
+	} else {
+		filePath = path.join(
+			__dirname,
+			"..",
+			"..",
+			"assets",
+			"email",
+			"ladies-sangeet.ics",
+		);
+	}
+
+	return {
+		filename: "ladies-sangeet.ics",
+		path: filePath,
+		contentType: "text/calendar; method=REQUEST",
+	};
+};

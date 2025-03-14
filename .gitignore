@@ -30,6 +30,9 @@
 **/*.env.production
 **/*.pem
 
+# Misc
+**/*.ics
+
 # Particular files
 qrgen.js
 qr_code.png
